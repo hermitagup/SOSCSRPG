@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Engine.ViewModels;   //Adding this using will instantiating Games Model object inside MainWindow class
 
 namespace WPFUI
 {
@@ -20,9 +21,12 @@ namespace WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
+        private GameSession _GameSession;  //Declaring private variable
         public MainWindow()
         {
             InitializeComponent();
+            _GameSession = new GameSession(); // Instantiating new GameSession object when starting new window| Now our View will have player and game session to work with (Player object is instantiatet in GameSession class.
+            DataContext = _GameSession;  // This is what is XAML file is going to use for it's values.
         }
     }
 }
