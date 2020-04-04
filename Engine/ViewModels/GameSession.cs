@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+// logika gry, polaczenie z player
 
 namespace Engine.ViewModels
 {
-    class GameSession
+    public class GameSession
     {
-        Player CurrentPlayer { get; set; } // ustawienie klasy 'Player' 
+        public Player CurrentPlayer { get; set; } // ustawienie klasy 'Player' 
         
         public GameSession() // Konstruktor (funkcja) gamesession
         {
