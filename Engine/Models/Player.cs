@@ -3,16 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace Engine.Models
 {
-    public class Player // klasa player, z parametrami
+    public class Player : INotifyPropertyChanged  // klasa player, z parametrami
     {
+        private int _experiencePoints;
+
         public string Name { get; set; }
         public string CharacterClass { get; set; }
         public int HitPoints { get; set; }
-        public int ExperiencePoints { get; set; }
+        public int ExperiencePoints 
+        {
+            get { return _experiencePoints; }
+            set 
+            { 
+                _experiencePoints = value;
+                OnPropertyChanged("ExperiencePoints");
+            } 
+        }
         public int Level { get; set; }
         public int Gold { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName) //public function; if anybody is lstening to 'PropertyChangedEventHandler', we need to send him/her message 'this, new' property has changed
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

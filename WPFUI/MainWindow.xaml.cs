@@ -28,6 +28,11 @@ namespace WPFUI
             _GameSession = new GameSession(); // Instantiating new GameSession object when starting new window| Now our View will have player and game session to work with (Player object is instantiatet in GameSession class.
             DataContext = _GameSession;  // This is what is XAML file is going to use for it's values.
         }
+
+        private void ButtonBase_OnClick (object sender, RoutedEventArgs e)
+        {
+            _GameSession.CurrentPlayer.ExperiencePoints = _GameSession.currentplayer.ExperiencePoints + 10;
+        }
     }
 }
 
