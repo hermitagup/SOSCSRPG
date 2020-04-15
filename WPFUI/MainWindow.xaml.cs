@@ -32,12 +32,7 @@ namespace WPFUI
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
             _gameSession.CurrentPlayer.ExperiencePoints = _gameSession.CurrentPlayer.ExperiencePoints + 10;  // in short _gameSession.CurrentPlayer.ExperiencePoints +=10;
-        }
-
-        private void ButtonBase_OnClick (object sender, RoutedEventArgs e)
-        {
-            _GameSession.CurrentPlayer.ExperiencePoints = _GameSession.currentplayer.ExperiencePoints + 10;
-        }
+        }       
     }
 }
 
