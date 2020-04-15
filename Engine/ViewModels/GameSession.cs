@@ -10,9 +10,10 @@ namespace Engine.ViewModels
     public class GameSession
     {
         public Player CurrentPlayer { get; set; }
-        public Location CurrentLocation { get; set; }
 
+        public Location CurrentLocation { get; set; }
         public GameSession()    // GameSession constructor - part of a code run when object is being created
+       
         {
             CurrentPlayer = new Player();   //  Instantiating Player object|| Evaluate what is on the right side of '=' and put on left side (property CurrentPlayer)
             // Below data are temp and for testing time only (This will display This data from This View Model via XAML Main Window
@@ -29,7 +30,6 @@ namespace Engine.ViewModels
             CurrentLocation.YCoordinate = -1;
             CurrentLocation.Description = "This is your house";
             CurrentLocation.ImageName = "/Engine;component/Images/Locations/Home.png";
-
         }
     }
 }

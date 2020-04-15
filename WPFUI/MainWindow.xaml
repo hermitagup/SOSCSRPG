@@ -52,10 +52,10 @@
         </Grid>
 
         <Grid Grid.Row="1" Grid.Column="1"
-              Background="Beige">
+                Background="Beige">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -66,7 +66,7 @@
             <Border Grid.Row="0" Grid.Column="1"
                     BorderBrush="Gainsboro"
                     BorderThickness="1">
-                    
+
                 <Grid Margin="3">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -75,8 +75,8 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Grid.Row="0"
-                               HorizontalAlignment="Center"
-                               Text="{Binding CurrentLocation.Name}"/>
+                             HorizontalAlignment="Center"
+                             Text="{Binding CurrentLocation.Name}" />
 
                     <Image Grid.Row="1"
                            HorizontalAlignment="Center"
@@ -84,15 +84,15 @@
                            Height="125"
                            Width="125"
                            Source="{Binding CurrentLocation.ImageName}"/>
+                    
 
                     <TextBlock Grid.Row="2"
                                HorizontalAlignment="Center"
-                               Text="{Binding CurrentLocation.Description}"/>
-
+                               Text="{Binding CurrentLocation.Description}" />
+                    
                 </Grid>
             </Border>
-
-        </Grid>
+        </Grid>        
         <Label Grid.Row="2" Grid.Column="0" Content="Inventory/Quest" Background="BurlyWood"/>
         <Label Grid.Row="2" Grid.Column="1" Content="Combat/Movement Controls" Background="Lavender"/>
 
