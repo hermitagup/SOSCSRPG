@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPFUI"
         mc:Ignorable="d"
         FontSize="11pt"
-        Title="Ours Form RPG :)" Height="768" Width="1024">
+        Title="Ours Form RPG :) xDDD" Height="768" Width="1024">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
