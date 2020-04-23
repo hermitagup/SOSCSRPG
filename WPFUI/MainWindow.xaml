@@ -90,7 +90,6 @@
                                HorizontalAlignment="Center"
                                Text="{Binding CurrentLocation.Description}"
                                TextWrapping="Wrap"/>
-
                     
                 </Grid>
             </Border>

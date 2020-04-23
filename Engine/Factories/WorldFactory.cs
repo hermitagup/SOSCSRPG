@@ -7,11 +7,12 @@ using Engine.Models;
 
 namespace Engine.Factories
 {
-    internal class WorldFactory
+    internal class WorldFactory // only in Engine Project (internal is from default, but it is good to distinct the access type)
     {
-        internal World CreateWorld() {
+        internal World CreateWorld() //internal function only in Engine Project
+        {
+            World newWorld = new World(); //instantiating the World object under name 'newWorld'
 
-            World newWorld = new World();
             newWorld.AddLocation(-2, -1, "Farmer's Field",
                 "There are rows of corn growing here, with giant rats hiding between them.",
                 "/Engine;component/Images/Locations/FarmFields.png");
@@ -20,7 +21,7 @@ namespace Engine.Factories
                 "This is the house of your neighbor, Farmer Ted.",
                 "/Engine;component/Images/Locations/Farmhouse.png");
 
-            newWorld.AddLocation(0, -1, "Home",
+            newWorld.AddLocation(0, -1, "Home", 
                 "This is your home",
                 "/Engine;component/Images/Locations/Home.png");
 
@@ -48,8 +49,7 @@ namespace Engine.Factories
                 "There are many plants here, with snakes hiding behind them.",
                 "/Engine;component/Images/Locations/HerbalistsGarden.png");
 
-
-            return newWorld;
+            return newWorld; //return newWorld instance with filled data
         }
     }
 }
