@@ -29,10 +29,19 @@ namespace WPFUI
             DataContext = _gameSession;  // This is what is XAML file is going to use for it's values.
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            _gameSession.CurrentPlayer.ExperiencePoints = _gameSession.CurrentPlayer.ExperiencePoints + 10;  // in short _gameSession.CurrentPlayer.ExperiencePoints +=10;
-        }       
+        private void OnClick_MoveNorth(object sender, RoutedEventArgs e) {
+            _gameSession.MoveNorth();
+        }
+        private void OnClick_MoveWest(object sender, RoutedEventArgs e) {
+            _gameSession.MoveWest();
+        }
+        private void OnClick_MoveEast(object sender, RoutedEventArgs e) {
+            _gameSession.MoveEast();
+        }
+        private void OnClick_MoveSouth(object sender, RoutedEventArgs e) {
+            _gameSession.MoveSouth();
+        }
+
     }
 }
 
