@@ -28,11 +28,26 @@ namespace WPFUI
             _gameSession = new GameSession(); // Instantiating new GameSession object when starting new window| Now our View will have player and game session to work with (Player object is instantiatet in GameSession class.
             DataContext = _gameSession;  // This is what is XAML file is going to use for it's values.
         }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+       
+        private void OnClick_MoveNorth (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
         {
-            _gameSession.CurrentPlayer.ExperiencePoints = _gameSession.CurrentPlayer.ExperiencePoints + 10;  // in short _gameSession.CurrentPlayer.ExperiencePoints +=10;
-        }       
+            _gameSession.MoveNorth();
+        }
+
+        private void OnClick_MoveWest (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
+        {
+            _gameSession.MoveWest();
+        }
+
+        private void OnClick_MoveEast (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
+        {
+            _gameSession.MoveEast();
+        }
+
+        private void OnClick_MoveSouth (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
+        {
+            _gameSession.MoveSouth();
+        }
     }
 }
 
