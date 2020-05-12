@@ -9,21 +9,23 @@ using System.ComponentModel;
 
 namespace Engine.ViewModels
 {
-    public class GameSession
+    public class GameSession : BaseNotificationClass       //Now GameSession class inherits from BaseNotificationClass
     {
         private Location _currentLocation;
         public World CurrentWorld { get; set; }
         public Player CurrentPlayer { get; set; }
         public Location CurrentLocation                     //When CurrentLocation changes
         {   get { return _currentLocation; }
-            set { 
+            set
+            {
                 _currentLocation = value;                   //we reset current location ('value' - explanation https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value
-                OnPropertyChanged("CurrentLocation");       //we raise OnPropertyChange for a CurrentLocation to redraw an image and update info
-                OnPropertyChanged("HasLocationToNorth");    //we raise OnPropertyChange for boolean value "HasLocationToNorth" to show or hide direction button based on that if there is a location available North of current location
-                OnPropertyChanged("HasLocationToEast");
-                OnPropertyChanged("HasLocationToWest");
-                OnPropertyChanged("HasLocationToSouth");
-            }
+                OnPropertyChanged(nameof(CurrentLocation));       //we raise OnPropertyChange for a CurrentLocation to redraw an image and update info
+                OnPropertyChanged(nameof(HasLocationToNorth));    //we raise OnPropertyChange for boolean value "HasLocationToNorth" to show or hide direction button based on that if there is a location available North of current location
+                OnPropertyChanged(nameof(HasLocationToEast));       
+                OnPropertyChanged(nameof(HasLocationToWest));
+                OnPropertyChanged(nameof(HasLocationToSouth));    //renaming string "HasLocationToSouth" to name of CurrentLocation property 'nameof(HasLocationToSouth)' to make it instantly updated everytime we update property name, 
+            }                                                     //otherwise property name will be updated in a project but not here as this is a string and does not really reflect the property name in a n active way!
+                                                                  // 'OnPropertyChanged' is inherited from BaseNotificationClass <-- hover over it to confirm!
         }
         public bool HasLocationToNorth { 
             get {
@@ -81,7 +83,6 @@ namespace Engine.ViewModels
         {
             CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate);
         }
-
         public void MoveSouth()
         {
             CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1);
@@ -89,11 +90,6 @@ namespace Engine.ViewModels
         public void MoveWest()
         {
             CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate);
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
