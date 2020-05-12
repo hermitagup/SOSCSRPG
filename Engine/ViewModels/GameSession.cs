@@ -17,8 +17,8 @@ namespace Engine.ViewModels
         public Location CurrentLocation                     //When CurrentLocation changes
         {   get { return _currentLocation; }
             set { 
-                _currentLocation = value;                   //we reset current location ('value' - explanation https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value
-                OnPropertyChanged(nameof(CurrentLocation)); //change onproperty string into name of currentlocation property      //we raise OnPropertyChange for a CurrentLocation to redraw an image and update info
+                _currentLocation = value;                         //we reset current location ('value' - explanation https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value
+                OnPropertyChanged(nameof(CurrentLocation));       //change onproperty string into name of currentlocation property      //we raise OnPropertyChange for a CurrentLocation to redraw an image and update info
                 OnPropertyChanged(nameof(HasLocationToNorth));    //we raise OnPropertyChange for boolean value "HasLocationToNorth" to show or hide direction button based on that if there is a location available North of current location
                 OnPropertyChanged(nameof(HasLocationToEast));
                 OnPropertyChanged(nameof(HasLocationToWest));
