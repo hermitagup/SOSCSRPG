@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Engine.Models
 {
-    public class Player : BaseNotificationClass // klasa player, z parametrami { INotifyPropertyChange will notify that change to any of the property in a Player class was made and anything that is using those properties will know to update values accordingly
+    public class Player : BaseNotificationClass // Before --> "Player : INotifyPropertyChanged" klasa player, z parametrami { INotifyPropertyChange will notify that change to any of the property in a Player class was made and anything that is using those properties will know to update values accordingly
     {
         private string _name;
         private string _characterClass;
@@ -59,6 +59,6 @@ namespace Engine.Models
                 _gold = value;
                 OnPropertyChanged(nameof(Gold));
             }
-        }        
+        }
     }
 }
