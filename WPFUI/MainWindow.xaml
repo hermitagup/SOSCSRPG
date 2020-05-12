@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPFUI"
         mc:Ignorable="d"
         FontSize="11pt"
-        Title="Ours Form RPG :) xDDD" Height="768" Width="1024">
+        Title="Ours Form RPG :) xDDD ^2 based" Height="768" Width="1024">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibility"/>
     </Window.Resources>
