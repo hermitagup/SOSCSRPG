@@ -22,8 +22,9 @@ namespace Engine.ViewModels
                 OnPropertyChanged(nameof(HasLocationToNorth));    //we raise OnPropertyChange for boolean value "HasLocationToNorth" to show or hide direction button based on that if there is a location available North of current location
                 OnPropertyChanged(nameof(HasLocationToEast));
                 OnPropertyChanged(nameof(HasLocationToWest));
-                OnPropertyChanged(nameof(HasLocationToSouth));
-            }
+                OnPropertyChanged(nameof(HasLocationToSouth));    //renaming string "HasLocationToSouth" to name of CurrentLocation property 'nameof(HasLocationToSouth)' to make it instantly updated everytime we update property name, 
+            }                                                     //otherwise property name will be updated in a project but not here as this is a string and does not really reflect the property name in a n active way!
+                                                                  // 'OnPropertyChanged' is inherited from BaseNotificationClass <-- hover over it to confirm!
         }
         public bool HasLocationToNorth { 
             get {
