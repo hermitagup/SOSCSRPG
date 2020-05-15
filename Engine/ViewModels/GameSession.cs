@@ -59,37 +59,51 @@ namespace Engine.ViewModels
         public GameSession()    // GameSession constructor - part of a code run when object is being created
        
         {
-            CurrentPlayer = new Player();   //  Instantiating Player object|| Evaluate what is on the right side of '=' and put on left side (property CurrentPlayer)
-            // Below data are temp and for testing time only (This will display This data from This View Model via XAML Main Window
-            CurrentPlayer.Name = "Scott";
-            CurrentPlayer.CharacterClass = "Fighter";
-            CurrentPlayer.HitPoints = 10;
-            CurrentPlayer.Gold = 1000000;
-            CurrentPlayer.ExperiencePoints = 0;
-            CurrentPlayer.Level = 1;
+            CurrentPlayer = new Player
+            {                                   // Instantiating Player object|| Evaluate what is on the right side of '=' and put on left side (property CurrentPlayer) // Lesson 4.5 change () to {}                  
+                Name = "Scott",                 // We instanciated object that have public properties (Name Parameters Method!)
+                CharacterClass = "Fighter",     // Below data are temp and for testing time only (This will display This data from This View Model via XAML Main Window
+                HitPoints = 10,
+                Gold = 1000000,
+                ExperiencePoints = 0,
+                Level = 1
+            };
 
-            WorldFactory factory = new WorldFactory();
-            CurrentWorld = factory.CreateWorld();
+            CurrentWorld = WorldFactory.CreateWorld();  // As we use this instance class to CreateWorld only we are changing it from instance to static (Global) class = do something and give me result in and out!
+                                                        // using static class to create object is called Factory Design Pattern) - To Remember: if class is static all of it's functions and private variables need to be static too!
 
             CurrentLocation = CurrentWorld.LocationAt(0,0);
         }
 
-        public void MoveNorth() {
-            CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1);
+        public void MoveNorth()
+        {
+            if (HasLocationToNorth)
+            {
+                CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1);
+            }
         }
 
         public void MoveEast()
         {
-            CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate);
+            if (HasLocationToEast)
+            {
+                CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate);
+            }
         }
 
         public void MoveSouth()
         {
-            CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1);
+            if (HasLocationToSouth)
+            {
+                CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1);
+            }
         }
         public void MoveWest()
         {
-            CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate);
+            if (HasLocationToWest)
+            {
+                CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate);
+            }
         }
     }
 }
