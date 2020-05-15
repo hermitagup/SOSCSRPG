@@ -61,8 +61,10 @@ namespace Engine.ViewModels
         {
             CurrentPlayer = new Player
             {                                   // Instantiating Player object|| Evaluate what is on the right side of '=' and put on left side (property CurrentPlayer) // Lesson 4.5 change () to {}                  
-                Name = "Scott",                 // We instanciated object that have public properties (Name Parameters Method!)
-                CharacterClass = "Fighter",     // Below data are temp and for testing time only (This will display This data from This View Model via XAML Main Window
+                                                // We instanciated object that have public properties (Name Parameters Method!)
+                                                // Below data are temp and for testing time only (This will display This data from This View Model via XAML Main Window
+                Name = "Scott",
+                CharacterClass = "Fighter",     
                 HitPoints = 10,
                 Gold = 1000000,
                 ExperiencePoints = 0,
@@ -71,6 +73,7 @@ namespace Engine.ViewModels
 
             CurrentWorld = WorldFactory.CreateWorld();  // As we use this instance class to CreateWorld only we are changing it from instance to static (Global) class = do something and give me result in and out!
                                                         // using static class to create object is called Factory Design Pattern) - To Remember: if class is static all of it's functions and private variables need to be static too!
+                                                        // goes to WorldFactory class (which is static) and call CreateWorld function (static again)
 
             CurrentLocation = CurrentWorld.LocationAt(0,0);
         }
