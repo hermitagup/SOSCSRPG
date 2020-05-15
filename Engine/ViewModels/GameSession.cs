@@ -56,7 +56,7 @@ namespace Engine.ViewModels
             }
         }
 
-        public GameSession()    // GameSession constructor - part of a code run when object is being created
+        public GameSession()    // GameSession constructor - part of a code run when object is being created.
        
         {
             CurrentPlayer = new Player
