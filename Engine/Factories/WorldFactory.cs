@@ -7,9 +7,9 @@ using Engine.Models;
 
 namespace Engine.Factories
 {
-    internal class WorldFactory // only in Engine Project (internal is from default, but it is good to distinct the access type)
+    internal static class WorldFactory // only in Engine Project (internal is from default, but it is good to distinct the access type)
     {
-        internal World CreateWorld() //internal function only in Engine Project
+        internal static World CreateWorld() //internal function only in Engine Project
         {
             World newWorld = new World(); //instantiating the World object under name 'newWorld'
 
