@@ -96,17 +96,13 @@
                 </Grid>
             </Border>
         </Grid>
-
-
-		<Grid>
-			Grid.Row ="2" Grid.Column="0"
-			Background ="BurlyWood"
-			
+		<Grid Grid.Row ="2" Grid.Column="0"
+			Background ="BurlyWood">
 			<TabControl>
 				<TabItem Header="Inventory">
 					<DataGrid ItemsSource="{Binding CurrentPlayer.Inventory}"
 						        AutoGenerateColumns="False"
-							    HeadersVisiblity="Column">
+							    HeadersVisibility=""
 						<DataGrid.Columns>
 							<DataGridTextColumn Header="Description"
 								                Binding="{Binding Name}"
@@ -114,12 +110,10 @@
 							<DataGridTextColumn Header="Price"
 								                Binding="{Binding Price}"
 												Width="Auto" />
-
 						</DataGrid.Columns>
-					</DataGrid>					
+					</DataGrid>
 				</TabItem>
 			</TabControl>
-			
 		</Grid>       
         <Grid Grid.Row="2" Grid.Column="1"
               Background="Lavender">
