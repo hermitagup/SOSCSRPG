@@ -76,6 +76,10 @@ namespace Engine.ViewModels
                                                         // goes to WorldFactory class (which is static) and call CreateWorld function (static again)
 
             CurrentLocation = CurrentWorld.LocationAt(0,0);
+
+            //CurrentPlayer.Inventory.Add(ItemFactory.CreateGameItem(1001));  //leaving to show up how to inject items for testing
+            //CurrentPlayer.Inventory.Add(ItemFactory.CreateGameItem(1002));  //temp
+            //CurrentPlayer.Inventory.Add(ItemFactory.CreateGameItem(1002));  //temp
         }
 
         public void MoveNorth()
