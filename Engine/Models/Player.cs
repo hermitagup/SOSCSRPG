@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Collections.ObjectModel;
 
 namespace Engine.Models
 {
@@ -60,5 +61,13 @@ namespace Engine.Models
                 OnPropertyChanged(nameof(Gold));
             }
         }
+    
+        public ObservableCollection<GameItem> Inventory { get; set; } //obsevable collection of items it's in System.Collections.ObjectModel namespace
+ 
+        public Player()
+        {
+            Inventory = new ObservableCollection<GameItem>();
+        }
+    
     }
 }
