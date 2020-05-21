@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Collections.ObjectModel;
 
 namespace Engine.Models
 {
@@ -61,13 +61,12 @@ namespace Engine.Models
                 OnPropertyChanged(nameof(Gold));
             }
         }
-    
-        public ObservableCollection<GameItem> Inventory { get; set; } //obsevable collection of items it's in System.Collections.ObjectModel namespace
- 
-        public Player()
-        {
-            Inventory = new ObservableCollection<GameItem>();
+        public ObservableCollection<GameItem> Inventory { get; set; }   // New data type 'OvservableCollection' with new property 'Inventory' with getter and setter 
+                                                                        // new data type requires refference to Collection.ObjectModel namespace 
+                                                                        // we are using this data type as it automatically handles all the notifications (no need of like 'OnPropertyChanged'))
+
+        public Player() {
+            Inventory = new ObservableCollection<GameItem>();   //This will instanciate new ObserverCollevtion list of GameItems and set Inventory property to that value
         }
-    
     }
 }
