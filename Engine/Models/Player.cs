@@ -65,8 +65,11 @@ namespace Engine.Models
                                                                         // new data type requires refference to Collection.ObjectModel namespace 
                                                                         // we are using this data type as it automatically handles all the notifications (no need of like 'OnPropertyChanged'))
 
+        public ObservableCollection<QuestStatus> Quests { get; set; }
+
         public Player() {
             Inventory = new ObservableCollection<GameItem>();   //This will instanciate new ObserverCollevtion list of GameItems and set Inventory property to that value
+            Quests = new ObservableCollection<QuestStatus>();
         }
     }
 }

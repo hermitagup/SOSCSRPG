@@ -15,16 +15,20 @@ namespace Engine.ViewModels
         public World CurrentWorld { get; set; }
         public Player CurrentPlayer { get; set; }
         public Location CurrentLocation                     //When CurrentLocation changes
-        {   get { return _currentLocation; }
-            set { 
+        {
+            get { return _currentLocation; }
+            set
+            {
                 _currentLocation = value;                         //we reset current location ('value' - explanation https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value
                 OnPropertyChanged(nameof(CurrentLocation));       //change onproperty string into name of currentlocation property      //we raise OnPropertyChange for a CurrentLocation to redraw an image and update info
                 OnPropertyChanged(nameof(HasLocationToNorth));    //we raise OnPropertyChange for boolean value "HasLocationToNorth" to show or hide direction button based on that if there is a location available North of current location
                 OnPropertyChanged(nameof(HasLocationToEast));
                 OnPropertyChanged(nameof(HasLocationToWest));
                 OnPropertyChanged(nameof(HasLocationToSouth));    //renaming string "HasLocationToSouth" to name of CurrentLocation property 'nameof(HasLocationToSouth)' to make it instantly updated everytime we update property name, 
-            }                                                     //otherwise property name will be updated in a project but not here as this is a string and does not really reflect the property name in a n active way!
+                                                                  //otherwise property name will be updated in a project but not here as this is a string and does not really reflect the property name in a n active way!
                                                                   // 'OnPropertyChanged' is inherited from BaseNotificationClass <-- hover over it to confirm!
+                GivePlayerQuestsAtLocation();
+            }
         }
         public bool HasLocationToNorth { 
             get {
@@ -112,5 +116,16 @@ namespace Engine.ViewModels
                 CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate);
             }
         }
+
+        private void GivePlayerQuestsAtLocation() {
+            foreach (Quest quest in CurrentLocation.QuestsAvailableHere) {
+                if (!CurrentPlayer.Quests.Any(q => q.PlayerQuest.ID == quest.ID)){
+                    CurrentPlayer.Quests.Add(new QuestStatus(quest));
+                }
+            }
+        }
+
+
+
     }
 }

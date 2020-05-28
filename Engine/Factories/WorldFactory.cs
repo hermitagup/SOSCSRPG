@@ -45,6 +45,11 @@ namespace Engine.Factories
                 "You see a small hut, with plants drying from the roof.",
                 "/Engine;component/Images/Locations/HerbalistsHut.png");
 
+            newWorld.LocationAt(0, 1).QuestsAvailableHere.Add(QuestFactory.GetQuestByID(1)); //(0) This takes from World, that takes From Location and gives ass property 'QuestAvailableHere'
+                                                                                             //Line (1) & (2) doing same as line (0) 
+                                                                                             //(1) Location hh = newWorld.LocationAt(0, 1);
+                                                                                             //(2) hh.QuestsAvailableHere.Add(QuestFactory.GetQuestByID(1));
+
             newWorld.AddLocation(0, 2, "Herbalist's garden",
                 "There are many plants here, with snakes hiding behind them.",
                 "/Engine;component/Images/Locations/HerbalistsGarden.png");
