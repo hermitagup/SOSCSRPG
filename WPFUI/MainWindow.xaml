@@ -98,7 +98,7 @@
         </Grid>
         <Grid Grid.Row="2" Grid.Column="0"
               Background="BurlyWood">
-
+					
             <TabControl>
                 <TabItem Header="Inventory">
                     <DataGrid ItemsSource="{Binding CurrentPlayer.Inventory}"
@@ -114,6 +114,22 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
+				<TabItem Header="Quests">
+					<DataGrid ItemsSource="{Binding CurrentPlayer.Quests}"
+                              AutoGenerateColumns="False"
+                              HeadersVisibility="Column">
+						<DataGrid.Columns>
+							<DataGridTextColumn Header="Description"
+                                                Binding="{Binding PlayerQuest.Name}"
+                                                Width="*"/>
+							<DataGridTextColumn Header="Done"
+                                                Binding="{Binding isCompleted}"
+                                                Width="Auto"/>
+						</DataGrid.Columns>
+					</DataGrid>
+				</TabItem>
+				
+				
             </TabControl>
         </Grid>
         
