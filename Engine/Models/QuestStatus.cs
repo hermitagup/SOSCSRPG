@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+      // when player gets a quest, it has default IsCompleted false status
 namespace Engine.Models
 {
     public class QuestStatus

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Engine
 {
+    // Complex version
     public static class RandomNumberGenerator
     {
         private static readonly RNGCryptoServiceProvider _generator = new RNGCryptoServiceProvider();
@@ -26,9 +27,7 @@ namespace Engine
 
             // We need to add one to the range, to allow for the rounding done with Math.Floor
             int range = maximumValue - minimumValue + 1;
-
             double randomValueInRange = Math.Floor(multiplier * range);
-
             return (int)(minimumValue + randomValueInRange);
         }
 
@@ -45,4 +44,3 @@ namespace Engine
         //}
     }
 }
-
