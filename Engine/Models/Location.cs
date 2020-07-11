@@ -68,5 +68,6 @@ namespace Engine.Models
 
             //If there was a problem, return the last monster in the list.
             return MonsterFactory.GetMonster(MonstersHere.Last().MonsterID);
-        } 
-     
+        }
+    }
+}
