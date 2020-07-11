@@ -12,6 +12,7 @@ namespace Engine.ViewModels
     public class GameSession : BaseNotificationClass
     {
         private Location _currentLocation;
+        private Monster _currentMonster;
         public World CurrentWorld { get; set; }
         public Player CurrentPlayer { get; set; }
         public Location CurrentLocation                     //When CurrentLocation changes
@@ -28,8 +29,20 @@ namespace Engine.ViewModels
                                                                      //otherwise property name will be updated in a project but not here as this is a string and does not really reflect the property name in a n active way!
                                                                      // 'OnPropertyChanged' is inherited from BaseNotificationClass <-- hover over it to confirm!
                 GivePlayerQuestsAtLocation();                       // check if there are new quests when player moves to new location
+                GetMonsterAtLocation();
             }
         }
+
+        public Monster CurrentMonster {
+            get { return _currentMonster; }
+            set { _currentMonster = value;
+                OnPropertyChanged(nameof(CurrentMonster));  //inform UI about change
+                OnPropertyChanged(nameof(HasMonster));      //inform UI about change
+            
+            
+            }
+        }
+
         public bool HasLocationToNorth { 
             get {
                 return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null; // look in the currentworld try currentlocation at x coordinate and y coordinate +1 if it is not equal null 
@@ -60,6 +73,7 @@ namespace Engine.ViewModels
             }
         }
 
+        public bool HasMonster => CurrentMonster != null;   //bool property to check if there is amonster. '=>' - this is an expression body and is used instead of get like in HasLocationToXYZ , same like 'return CurrentWorld.,, calculation'
         public GameSession()    // GameSession constructor - part of a code run when object is being created.
        
         {
@@ -125,7 +139,8 @@ namespace Engine.ViewModels
             }
         }
 
-
-
+        private void GetMonsterAtLocation() {
+            CurrentMonster = CurrentLocation.GetMonster();
+        }
     }
 }
