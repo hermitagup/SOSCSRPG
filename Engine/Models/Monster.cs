@@ -11,12 +11,6 @@ namespace Engine.Models
             get { return _hitpoints; }
             private set {
                 _hitpoints = value;
-        public int HitPoints
-        {
-            get { return _hitPoints; }
-            private set
-            {
-                _hitPoints = value;
                 OnPropertyChanged(nameof(HitPoints));
             }
         }
