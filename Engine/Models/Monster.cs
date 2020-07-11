@@ -1,14 +1,16 @@
-﻿using System.Collections.ObjectModel;
-
+using System.Collections.ObjectModel;
 namespace Engine.Models
 {
     public class Monster : BaseNotificationClass
     {
-        private int _hitPoints;
-
+        private int _hitpoints;
         public string Name { get; private set; }
         public string ImageName { get; set; }
         public int MaximumHitPoints { get; private set; }
+        public int HitPoints {
+            get { return _hitpoints; }
+            private set {
+                _hitpoints = value;
         public int HitPoints
         {
             get { return _hitPoints; }
@@ -23,7 +25,6 @@ namespace Engine.Models
         public int RewardGold { get; private set; }
 
         public ObservableCollection<ItemQuantity> Inventory { get; set; }
-
         public Monster(string name, string imageName,
             int maximumHitPoints, int hitPoints,
             int rewardExperiencePoints, int rewardGold)
@@ -34,7 +35,6 @@ namespace Engine.Models
             HitPoints = hitPoints;
             RewardExperiencePoints = rewardExperiencePoints;
             RewardGold = rewardGold;
-
             Inventory = new ObservableCollection<ItemQuantity>();
         }
     }
