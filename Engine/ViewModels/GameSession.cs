@@ -29,18 +29,17 @@ namespace Engine.ViewModels
                                                                      //otherwise property name will be updated in a project but not here as this is a string and does not really reflect the property name in a n active way!
                                                                      // 'OnPropertyChanged' is inherited from BaseNotificationClass <-- hover over it to confirm!
                 GivePlayerQuestsAtLocation();                       // check if there are new quests when player moves to new location
+                GetMonsterAtLocation();
             }
         }
 
-        public Monster CurrentMonster
-        {
+        public Monster CurrentMonster {
             get { return _currentMonster; }
-            set
-            {
-                _currentMonster = value;
-
-                OnPropertyChanged(nameof(CurrentMonster));
-                OnPropertyChanged(nameof(HasMonster));
+            set { _currentMonster = value;
+                OnPropertyChanged(nameof(CurrentMonster));  //inform UI about change
+                OnPropertyChanged(nameof(HasMonster));      //inform UI about change
+            
+            
             }
         }
 
@@ -74,8 +73,7 @@ namespace Engine.ViewModels
             }
         }
 
-        public bool HasMonster => CurrentMonster != null;
-
+        public bool HasMonster => CurrentMonster != null;   //bool property to check if there is a monster. '=>' - this is an expression body and is used instead of get like in HasLocationToXYZ , same like 'return CurrentWorld.,, calculation'
         public GameSession()    // GameSession constructor - part of a code run when object is being created.
        
         {
@@ -141,7 +139,8 @@ namespace Engine.ViewModels
             }
         }
 
-
-
+        private void GetMonsterAtLocation() {
+            CurrentMonster = CurrentLocation.GetMonster();
+        }
     }
 }

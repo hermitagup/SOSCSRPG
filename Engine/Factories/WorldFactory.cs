@@ -17,7 +17,7 @@ namespace Engine.Factories
                 "There are rows of corn growing here, with giant rats hiding between them.",
                 "/Engine;component/Images/Locations/FarmFields.png");
 
-            newWorld.LocationAt(-2, -1).AddMonster(2, 100);
+            newWorld.LocationAt(-2, -1).AddMonster(2, 100); // 2- monster ID, 100- chances of encountering
 
             newWorld.AddLocation(-1, -1, "Farmer's House",
                 "This is the house of your neighbor, Farmer Ted.",
