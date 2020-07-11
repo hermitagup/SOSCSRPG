@@ -12,6 +12,7 @@ namespace Engine.ViewModels
     public class GameSession : BaseNotificationClass
     {
         private Location _currentLocation;
+        private Monster _currentMonster;
         public World CurrentWorld { get; set; }
         public Player CurrentPlayer { get; set; }
         public Location CurrentLocation                     //When CurrentLocation changes
@@ -30,6 +31,19 @@ namespace Engine.ViewModels
                 GivePlayerQuestsAtLocation();                       // check if there are new quests when player moves to new location
             }
         }
+
+        public Monster CurrentMonster
+        {
+            get { return _currentMonster; }
+            set
+            {
+                _currentMonster = value;
+
+                OnPropertyChanged(nameof(CurrentMonster));
+                OnPropertyChanged(nameof(HasMonster));
+            }
+        }
+
         public bool HasLocationToNorth { 
             get {
                 return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null; // look in the currentworld try currentlocation at x coordinate and y coordinate +1 if it is not equal null 
@@ -59,6 +73,8 @@ namespace Engine.ViewModels
                 return CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
             }
         }
+
+        public bool HasMonster => CurrentMonster != null;
 
         public GameSession()    // GameSession constructor - part of a code run when object is being created.
        
