@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 using Engine.Models;
 using Engine.Factories;
 using System.ComponentModel;
+using Engine.EventArgs;
 
 namespace Engine.ViewModels
 {
     public class GameSession : BaseNotificationClass
     {
+        public event EventHandler<GameMessageEventArgs> OnMessageRaised;
+
         private Location _currentLocation;
         private Monster _currentMonster;
         public World CurrentWorld { get; set; }
@@ -38,7 +41,11 @@ namespace Engine.ViewModels
             set { _currentMonster = value;
                 OnPropertyChanged(nameof(CurrentMonster));  //inform UI about change
                 OnPropertyChanged(nameof(HasMonster));      //inform UI about change
-            
+            if (CurrentMonster != null)                     // if current monster is not equal to null
+                {                                           // raise a massage with its name
+                    RaiseMessage("");
+                    RaiseMessage($"You see a {CurrentMonster.Name} here!");
+                }
             
             }
         }
@@ -141,6 +148,11 @@ namespace Engine.ViewModels
 
         private void GetMonsterAtLocation() {
             CurrentMonster = CurrentLocation.GetMonster();
+        }
+
+        private void RaiseMessage(string message)
+        {
+            OnMessageRaised?.Invoke(this, new GameMessageEventArgs(message));
         }
     }
 }
