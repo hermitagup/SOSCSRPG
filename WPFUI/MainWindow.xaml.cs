@@ -31,11 +31,6 @@ namespace WPFUI
             DataContext = _gameSession;  // This is what is XAML file is going to use for it's values.
         }
 
-        //private void OnGameMessageRaised(object sender, GameMessageEventArgs e)
-        //{
-         //   throw new NotImplementedException();
-        //}
-
         private void OnClick_MoveNorth (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
         {
             _gameSession.MoveNorth();
@@ -64,4 +59,3 @@ namespace WPFUI
 
     }
 }
-
