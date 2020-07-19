@@ -48,6 +48,8 @@ namespace Engine.ViewModels
             }
         }
 
+        public Weapon CurrentWeapon { get; set; }   // property of data type Weapon to know what's the current selected weapon is for a player
+
         public bool HasLocationToNorth { 
             get {
                 return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null; // look in the currentworld try currentlocation at x coordinate and y coordinate +1 if it is not equal null 
@@ -93,6 +95,13 @@ namespace Engine.ViewModels
                 ExperiencePoints = 0,
                 Level = 1
             };
+
+            if (!CurrentPlayer.Weapons.Any()) {                         // if current player doesn't have any weapon (Weapons list == empty) it will equip item ID 1001 = Pointy stick
+                CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(1001));
+            }
+
+
+
 
             CurrentWorld = WorldFactory.CreateWorld();  // As we use this instance class to CreateWorld only we are changing it from instance to static (Global) class = do something and give me result in and out!
                                                         // using static class to create object is called Factory Design Pattern) - To Remember: if class is static all of it's functions and private variables need to be static too!
@@ -146,6 +155,71 @@ namespace Engine.ViewModels
 
         private void GetMonsterAtLocation() {
             CurrentMonster = CurrentLocation.GetMonster();
+        }
+
+        public void AttackCurrentMonster() {
+            if (CurrentWeapon == null)              // Guard clause! - we will not run all stuff below if player doesn't have weapon equiped!
+            {
+                RaiseMessage("Mighty Hero! You must select a weapon, to attack.");
+                return;
+            }
+
+            // Determine damage to monster
+            int damageToMonster = RandomNumberGenerator.NumberBetween(CurrentWeapon.MinimumDamage, CurrentWeapon.MaximumDamage);
+
+            if (damageToMonster == 0)
+            {
+                RaiseMessage($"You missed the {CurrentMonster.Name}.");
+            }
+            else {
+                CurrentMonster.HitPoints -= damageToMonster;
+                RaiseMessage($"You hit the {CurrentMonster.Name} for {damageToMonster} points.");
+            }
+
+            //if Monster killed, collect reward & loot
+            if (CurrentMonster.HitPoints <= 0)
+            {
+                RaiseMessage("");
+                RaiseMessage($"You defeated the {CurrentMonster.Name}!");
+
+                CurrentPlayer.ExperiencePoints += CurrentMonster.RewardExperiencePoints;
+                RaiseMessage($"You received {CurrentMonster.RewardExperiencePoints} experience points.");
+
+                CurrentPlayer.Gold += CurrentMonster.RewardGold;
+                RaiseMessage($"You receive {CurrentMonster.RewardGold} gold.");
+
+                foreach (ItemQuantity itemQuantity in CurrentMonster.Inventory)
+                {
+                    GameItem item = ItemFactory.CreateGameItem(itemQuantity.ItemID);
+                    CurrentPlayer.AddItemToInventory(item);
+                    RaiseMessage($"You receive {itemQuantity.Quantity} {item.Name}.");
+                }
+
+                // Get another monster to fight
+                GetMonsterAtLocation();
+            }
+            else {
+                // if monster is still alive, let the monster attack
+                int damageToPlayer = RandomNumberGenerator.NumberBetween(CurrentMonster.MinimumDamage, CurrentMonster.MaximumDamage);
+
+                if (damageToPlayer == 0)
+                {
+                    RaiseMessage($"The {CurrentMonster.Name} attacks, but misses you.");
+                }
+                else {
+                    CurrentPlayer.HitPoints -= damageToPlayer;
+                    RaiseMessage($"The {CurrentMonster.Name} hit you for {damageToPlayer} points.");
+                }
+
+                // If player is killed, move them back to their home location.
+                if (CurrentPlayer.HitPoints <= 0) {
+                    RaiseMessage("");
+                    RaiseMessage($"The {CurrentMonster.Name} killed you in a fight!");
+
+                    CurrentLocation = CurrentWorld.LocationAt(0, -1); // Player's home location
+                    CurrentPlayer.HitPoints = CurrentPlayer.Level * 10; // Completely heal the player with hitpoints equal to player level * 10                
+                }
+            }
         }
 
         private void RaiseMessage(string message) {

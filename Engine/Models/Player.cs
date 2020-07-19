@@ -65,6 +65,13 @@ namespace Engine.Models
                                                                         // new data type requires refference to Collection.ObjectModel namespace 
                                                                         // we are using this data type as it automatically handles all the notifications (no need of like 'OnPropertyChanged'))
 
+        public List<GameItem> Weapons =>
+            Inventory.Where(i => i is Weapon).ToList();                 // instead of using getter & setter we use this method (called link statements), saying whenever anything is accessing the Weapons property, it's going
+                                                                        // to return the inventory items, where the item is a weapon.
+                                                                        // the .ToList() allows us to force this to materialize the results | as deffered query, without forcing sometimes we would not get results.
+                                                                        // List is not automatically updated like ObservableCollection, we need to raise property change event to notify UI, whenever Weapon List change => AddItemToInventory()
+
+
         public ObservableCollection<QuestStatus> Quests { get; set; }   // New data type 'OvservableCollection' with new property 'Quests' with getter and setter 
                                                                         // new data type requires refference to Collection.ObjectModel namespace 
                                                                         // we are using this data type as it automatically updates UI when new Quest or completes current
@@ -73,5 +80,12 @@ namespace Engine.Models
             Inventory = new ObservableCollection<GameItem>();   //This will instanciate new ObserverCollevtion list of GameItems and set Inventory property to that value
             Quests = new ObservableCollection<QuestStatus>();   //This will instanciate new ObserverCollevtion list of QuestsStatus and set Quests property to that value
         }
+
+        public void AddItemToInventory(GameItem item) {
+            Inventory.Add(item);                    // this will add new item to our inventory
+            OnPropertyChanged(nameof(Weapons));     // this function will raise PropertyChange event for Weapons. UI will know that need to check if there is an update for Weapon list (UI will check and know if need to update ComboBox)
+
+        }
+            
     }
 }

@@ -32,11 +32,15 @@ namespace Engine.Factories
                                                                                                                     // if match not found it will use default item (here null)
                                                                                                                     // conclusion: Our 'standardItem' will have matching item from our list or null
                                                                                                                     // on a list variable it uses linq to find 1 item that has properites
-            if (standardItem != null)
+            if (standardItem != null)                               // if we did find an item
             {
-                return standardItem.Clone();
+                if (standardItem is Weapon)                         // checking if found item is a Weapon
+                {
+                    return (standardItem as Weapon).Clone();        // we are cating this item as a Weapon object (before it was as GameItem object), the .Clone() is function from Weapon class | check Go to Definition...
+                }
+                return standardItem.Clone();                        // this .Clone() funstion is from GameItem class - same name but different function/ comes from different class | check Go to Definition...
             }
-            return null;    //if standardItem not found on a list, return null;
+                return null;    //if standardItem not found on a list, return null;
         }
     }
 }
