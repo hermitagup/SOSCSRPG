@@ -1,16 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Engine.Models;
 using Engine.Factories;
-using System.ComponentModel;
+using Engine.EventArgs;
 
 namespace Engine.ViewModels
 {
     public class GameSession : BaseNotificationClass
     {
+        public event EventHandler<GameMessageEventArgs> OnMessageRaised;  //This is handler that works like "In a view model when you raise this event, you should run this function from a view object."
+
+        #region Properties
         private Location _currentLocation;
         private Monster _currentMonster;
         public World CurrentWorld { get; set; }
@@ -32,14 +32,17 @@ namespace Engine.ViewModels
                 GetMonsterAtLocation();
             }
         }
-
+        #endregion
         public Monster CurrentMonster {
             get { return _currentMonster; }
             set { _currentMonster = value;
                 OnPropertyChanged(nameof(CurrentMonster));  //inform UI about change
                 OnPropertyChanged(nameof(HasMonster));      //inform UI about change
-            
-            
+                if (CurrentMonster != null)
+                {
+                    RaiseMessage(""); // This is only to create blank line between messages!
+                    RaiseMessage($"You see a {CurrentMonster.Name} here!"); 
+                }
             }
         }
 
@@ -141,6 +144,10 @@ namespace Engine.ViewModels
 
         private void GetMonsterAtLocation() {
             CurrentMonster = CurrentLocation.GetMonster();
+        }
+
+        private void RaiseMessage(string message) {
+            OnMessageRaised?.Invoke(this, new GameMessageEventArgs(message)); //
         }
     }
 }

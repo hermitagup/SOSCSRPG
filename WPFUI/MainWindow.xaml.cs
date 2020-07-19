@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Engine.EventArgs;
 using Engine.ViewModels;   //Adding this using will instantiating Games Model object inside MainWindow class
 
 namespace WPFUI
@@ -26,6 +27,7 @@ namespace WPFUI
         {
             InitializeComponent();
             _gameSession = new GameSession(); // Instantiating new GameSession object when starting new window| Now our View will have player and game session to work with (Player object is instantiatet in GameSession class.
+            _gameSession.OnMessageRaised += OnGameMessageRaised;
             DataContext = _gameSession;  // This is what is XAML file is going to use for it's values.
         }
        
@@ -47,6 +49,10 @@ namespace WPFUI
         private void OnClick_MoveSouth (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
         {
             _gameSession.MoveSouth();
+        }
+        private void OnGameMessageRaised(object sender, GameMessageEventArgs e) {
+            GameMessages.Document.Blocks.Add(new Paragraph(new Run(e.Message)));
+            GameMessages.ScrollToEnd();
         }
     }
 }

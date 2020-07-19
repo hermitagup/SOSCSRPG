@@ -22,12 +22,12 @@
             <ColumnDefinition Width="250"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
+
         <!-- Menu -->
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Menu" Background="AliceBlue"/>
 
         <!-- Player Stats -->
-            <Grid Grid.Row="1" Grid.Column="0" Background="Aquamarine">
+        <Grid Grid.Row="1" Grid.Column="0" Background="Aquamarine">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -69,6 +69,25 @@
                 <ColumnDefinition Width="3*"/>
                 <ColumnDefinition Width="2*"/>
             </Grid.ColumnDefinitions>
+
+            <!-- Game Messages -->
+            <Border Grid.Row="0" Grid.Column="0"
+                    Grid.RowSpan="2"
+                    BorderBrush="Gainsboro"
+                    BorderThickness="1">
+                <!-- In order for the MainWindows.xaml.cs to be able to display the message, we need to have a name of this RichTextBox x:Name=""-->
+                <RichTextBox x:Name="GameMessages"  
+                             Background="Beige"
+                             VerticalScrollBarVisibility="Auto">
+                    <!-- RichTextBox.Resources part is for making text line by line, as normally paragraphs have empty line between in RichTextBox. We are setting margin style of paragraph to 0, this will limit extra space between lines  -->
+                    <RichTextBox.Resources>
+                        <Style TargetType="{x:Type Paragraph}">
+                            <Setter Property="Margin" Value="0"/>
+                        </Style>
+                    </RichTextBox.Resources>
+                </RichTextBox>
+            </Border>
+                    
             
             <!-- Location information -->
             <Border Grid.Row="0" Grid.Column="1"
@@ -89,16 +108,24 @@
                     <Image Grid.Row="1"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
-                           Height="125"
-                           Width="125"
-                           Source="{Binding CurrentLocation.ImageName}"/>
-                    
+                           Height="120"
+                           Width="126"
+                           Source="{Binding CurrentLocation.ImageName}">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+
 
                     <TextBlock Grid.Row="2"
                                HorizontalAlignment="Center"
                                Text="{Binding CurrentLocation.Description}"
                                TextWrapping="Wrap"/>
-                    
+
                 </Grid>
             </Border>
 
@@ -139,11 +166,11 @@
             </Border>
 
         </Grid>
-        
+
         <!-- Inventory and Quests -->
         <Grid Grid.Row="2" Grid.Column="0"
               Background="BurlyWood">
-					
+
             <TabControl>
                 <TabItem Header="Inventory">
                     <DataGrid ItemsSource="{Binding CurrentPlayer.Inventory}"
@@ -174,10 +201,10 @@
                         </DataGrid.Columns>
                     </DataGrid>
                 </TabItem>
-                
+
             </TabControl>
         </Grid>
-        
+
         <!--- Action controls -->
         <Grid Grid.Row="2" Grid.Column="1"
               Background="Lavender">
