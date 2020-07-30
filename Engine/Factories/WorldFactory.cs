@@ -15,7 +15,7 @@ namespace Engine.Factories
 
             newWorld.AddLocation(-2, -1, "Farmer's Field",
                 "There are rows of corn growing here, with giant rats hiding between them.",
-                "FarmFields.png");
+                "FarmFields.png");  // path was shortened as common path to files was declared in World class
 
             newWorld.LocationAt(-2, -1).AddMonster(2, 100); // 2- monster ID, 100- chances of encountering
 

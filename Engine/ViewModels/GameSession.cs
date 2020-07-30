@@ -50,7 +50,15 @@ namespace Engine.ViewModels
 
         public Weapon CurrentWeapon { get; set; }   // property of data type Weapon to know what's the current selected weapon is for a player
 
-        public bool HasLocationToNorth =>           //  the value of that property is determined by checking if the HasLocationToNorth property is null
+        // Before refactoring this bit of a code (example)
+        // public bool HasLocationToNorth { 
+        //     get {
+        //         return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null; // look in the currentworld try currentlocation at x coordinate and y coordinate +1 if it is not equal null 
+        //     } 
+        // }
+        //
+        // After refactoring this bit of a code (example)
+        public bool HasLocationToNorth =>
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null;
 
         public bool HasLocationToEast =>            //  the value of that property is determined by checking if the HasLocationToEast property is null
