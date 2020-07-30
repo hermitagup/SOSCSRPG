@@ -9,7 +9,7 @@ namespace Engine.Factories
 {
     public static class ItemFactory                             // it's static as we will not need to instanciated it but just use functions from it 
     {                                                           // static class never have constructor as it is never create an instance (not being constructed)
-        private static List<GameItem> _standardGameItems;
+        private static readonly List<GameItem> _standardGameItems = new List<GameItem>();
 
         static ItemFactory()
         {
@@ -34,6 +34,11 @@ namespace Engine.Factories
                                                                                                                     // on a list variable it uses linq to find 1 item that has properites
             if (standardItem != null)
             {
+                if (standardItem is Weapon)
+                {
+                    return (standardItem as Weapon).Clone();    //if standardItem is Weapon, cast it as a Weapon object
+                }
+
                 return standardItem.Clone();
             }
             return null;    //if standardItem not found on a list, return null;
