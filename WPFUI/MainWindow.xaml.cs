@@ -22,11 +22,11 @@ namespace WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GameSession _gameSession;  //Declaring private variable
+        private readonly GameSession _gameSession = new GameSession();  // Declaring private readonly variable and Instantiating new GameSession object when starting new window
+                                                                        // Now our View will have player and game session to work with (Player object is instantiatet in GameSession class.
         public MainWindow()
         {
             InitializeComponent();
-            _gameSession = new GameSession(); // Instantiating new GameSession object when starting new window| Now our View will have player and game session to work with (Player object is instantiatet in GameSession class.
             _gameSession.OnMessageRaised += OnGameMessageRaised; //funciton to handle event
             DataContext = _gameSession;  // This is what is XAML file is going to use for it's values.
         }
