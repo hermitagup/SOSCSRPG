@@ -22,7 +22,7 @@ namespace WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GameSession _gameSession;  //Declaring private variable
+        private readonly GameSession _gameSession = new GameSession();  //Declaring private variable
         public MainWindow()
         {
             InitializeComponent();

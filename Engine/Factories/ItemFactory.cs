@@ -9,7 +9,7 @@ namespace Engine.Factories
 {
     public static class ItemFactory                             // it's static as we will not need to instanciated it but just use functions from it 
     {                                                           // static class never have constructor as it is never create an instance (not being constructed)
-        private static List<GameItem> _standardGameItems;
+        private static readonly List<GameItem> _standardGameItems = new List<GameItem>();
 
         static ItemFactory()
         {

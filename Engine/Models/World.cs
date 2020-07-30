@@ -9,7 +9,7 @@ namespace Engine.Models
 {
     public class World
     {
-        private List<Location> _locations = new List<Location>(); //create private _locations variable, only accessed inside Word class
+        private readonly List<Location> _locations = new List<Location>(); //create private _locations variable, only accessed inside Word class
     
         internal void AddLocation(int xCoordinate, int yCoordinate, string name, string description, string imageName) //only worldfactory uses this calss. used void, as we don't want any answer back (function doesn't return any value, just do some magic)
         {
@@ -18,7 +18,7 @@ namespace Engine.Models
             loc.YCoordinate = yCoordinate;
             loc.Name = name;
             loc.Description = description;
-            loc.ImageName = imageName;
+            loc.ImageName = $"/Engine;component/Images/Locations/{imageName}";
 
             _locations.Add(loc); //Add just created 'loc' class instance to '_locations' list
      

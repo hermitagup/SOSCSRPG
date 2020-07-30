@@ -50,35 +50,17 @@ namespace Engine.ViewModels
 
         public Weapon CurrentWeapon { get; set; }   // property of data type Weapon to know what's the current selected weapon is for a player
 
-        public bool HasLocationToNorth { 
-            get {
-                return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null; // look in the currentworld try currentlocation at x coordinate and y coordinate +1 if it is not equal null 
-            } 
-        }
+        public bool HasLocationToNorth =>           //  the value of that property is determined by checking if the HasLocationToNorth property is null
+            CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null;
 
-        public bool HasLocationToEast
-        {
-            get
-            {
-                return CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate) != null;
-            }
-        }
+        public bool HasLocationToEast =>            //  the value of that property is determined by checking if the HasLocationToEast property is null
+            CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate) != null;
 
-        public bool HasLocationToSouth
-        {
-            get
-            {
-                return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1) != null;
-            }
-        }
+        public bool HasLocationToSouth =>           // the value of that property is determined by checking if the HasLocationToSouth property is null
+            CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1) != null;
 
-        public bool HasLocationToWest
-        {
-            get
-            {
-                return CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
-            }
-        }
+        public bool HasLocationToWest =>            // the value of that property is determined by checking if the HasLocationToWest property is null
+            CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
 
         public bool HasMonster => CurrentMonster != null;   //bool property to check if there is a monster. '=>' - this is an expression body and is used instead of get like in HasLocationToXYZ , same like 'return CurrentWorld.,, calculation'
         public GameSession()    // GameSession constructor - part of a code run when object is being created.
