@@ -17,23 +17,29 @@ namespace Engine.Models
         private int _level;
         private int _gold;
 
-        public string Name {
+        public string Name
+        {
             get { return _name; }
-            set { 
+            set
+            {
                 _name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
-        public string CharacterClass {
+        public string CharacterClass
+        {
             get { return _characterClass; }
-            set {
+            set
+            {
                 _characterClass = value;
                 OnPropertyChanged(nameof(CharacterClass));
             }
         }
-        public int HitPoints {
+        public int HitPoints
+        {
             get { return _hitPoints; }
-            set {
+            set
+            {
                 _hitPoints = value;
                 OnPropertyChanged(nameof(HitPoints));
             }
@@ -41,22 +47,26 @@ namespace Engine.Models
         public int ExperiencePoints
         {
             get { return _experiencePoints; }
-            set 
-            { 
+            set
+            {
                 _experiencePoints = value;
                 OnPropertyChanged(nameof(ExperiencePoints));  // This is exact property name that will be used in below OnPropertyChanged
             }
         }
-        public int Level {
+        public int Level
+        {
             get { return _level; }
-            set {
+            set
+            {
                 _level = value;
                 OnPropertyChanged(nameof(Level));
             }
         }
-        public int Gold {
+        public int Gold
+        {
             get { return _gold; }
-            set {
+            set
+            {
                 _gold = value;
                 OnPropertyChanged(nameof(Gold));
             }
@@ -76,16 +86,35 @@ namespace Engine.Models
                                                                         // new data type requires refference to Collection.ObjectModel namespace 
                                                                         // we are using this data type as it automatically updates UI when new Quest or completes current
 
-        public Player() {
+        public Player()
+        {
             Inventory = new ObservableCollection<GameItem>();   //This will instanciate new ObserverCollevtion list of GameItems and set Inventory property to that value
             Quests = new ObservableCollection<QuestStatus>();   //This will instanciate new ObserverCollevtion list of QuestsStatus and set Quests property to that value
         }
 
-        public void AddItemToInventory(GameItem item) {
+        public void AddItemToInventory(GameItem item)
+        {
             Inventory.Add(item);                    // this will add new item to our inventory
             OnPropertyChanged(nameof(Weapons));     // this function will raise PropertyChange event for Weapons. UI will know that need to check if there is an update for Weapon list (UI will check and know if need to update ComboBox)
 
         }
-            
+
+        public void RemoveItemFromInventory(GameItem item) // this will remove items from player's inventory
+        {
+            Inventory.Remove(item);
+            OnPropertyChanged(nameof(Weapons)); // this functions will raise PropertyChange event for Weapons
+        }
+        public bool HasAllTheseItems(List<ItemQuantity> items) // this function check if the player has all the items required to compete the quest
+        {                                                      // function accepts a list of ItemQuantity objects and looks through the playr's inventory
+            foreach (ItemQuantity item in items)
+            {
+                if (Inventory.Count(i => i.ItemTypeID == item.ItemID) < item.Quantity) //if the count of items is less than the number required in the parameter, the function returns false; if the player has a large enough quantity for all the items passed into the function it will return true
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
     }
 }
