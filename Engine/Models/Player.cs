@@ -87,22 +87,22 @@ namespace Engine.Models
 
         }
 
-        public void RemoveItemFromInventory(GameItem item) {
-            Inventory.Remove(item);                 // this will remove item from players inventory
-            OnPropertyChanged(nameof(Weapons));     // this function will raise PropertyChange event for Weapons. UI will know that need to check if there is an update for Weapon list (UI will check and know if need to update ComboBox)
+        public void RemoveItemFromInventory(GameItem item) // this will remove items from player's inventory
+        {
+            Inventory.Remove(item);
+            OnPropertyChanged(nameof(Weapons)); // this functions will raise PropertyChange event for Weapons
         }
-
-        public bool HasAllTheseItems(List<ItemQuantity> items) {                        // Passing list of quantity objects (Quest objects required to complete quest)
-            foreach (ItemQuantity item in items)                                        // Checking each of passed item
+        public bool HasAllTheseItems(List<ItemQuantity> items) // this function check if the player has all the items required to complete the quest
+        {                                                      // function accepts a list of ItemQuantity objects and looks through the playr's inventory
+            foreach (ItemQuantity item in items)
             {
-                if (Inventory.Count(i=> i.ItemTypeID == item.ItemID) < item.Quantity)   // Looking into players inventory and count how many items they have in their inventory, where the item Id matches
-                {                                                                       // If the count is less than count needed from the passed parameter (passed list), returning false, else return true
+                if (Inventory.Count(i => i.ItemTypeID == item.ItemID) < item.Quantity) //if the count of items is less than the number required in the parameter, the function returns false; if the player has a large enough quantity for all the items passed into the function it will return true
+                {
                     return false;
                 }
             }
+
             return true;
         }
-
-            
     }
 }
