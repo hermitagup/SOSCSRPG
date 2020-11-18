@@ -21,7 +21,9 @@
         </Grid.RowDefinitions>
  
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250"/>
+            <ColumnDefinition Width="85"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="160"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
  
@@ -89,7 +91,7 @@
                 </RichTextBox>
  
             </Border>
- 
+
             <!-- Location information -->
             <Border Grid.Row="0" Grid.Column="1"
                     BorderBrush="Gainsboro"
@@ -208,7 +210,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="255" />
             </Grid.ColumnDefinitions>
- 
+
             <!-- Combat Controls -->
             <Grid Grid.Row="0" Grid.Column="0"
                   Visibility="{Binding HasMonster, Converter={StaticResource BooleanToVisibility}}"
@@ -235,7 +237,7 @@
                         Content="Use"
                         Click="OnClick_AttackMonster"/>
             </Grid>
- 
+
             <!-- Movement Controls -->
             <Grid Grid.Row="0" Grid.Column="1">
  
