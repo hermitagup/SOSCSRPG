@@ -20,15 +20,16 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="85"/>
-            <ColumnDefinition Width="165"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="160"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <!-- Menu -->
-        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Content="Menu" Background="AliceBlue"/>
+        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Content="Menu" Background="AliceBlue"/>
 
         <!-- Player Stats -->
-        <Grid Grid.Row="1" Grid.Column="0" Background="Aquamarine" Grid.ColumnSpan="2">
+        <Grid Grid.Row="1" Grid.Column="0" Background="Aquamarine" Grid.ColumnSpan="3">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -59,7 +60,7 @@
         </Grid>
 
         <!-- Gameplay -->
-        <Grid Grid.Row="1" Grid.Column="2"
+        <Grid Grid.Row="1" Grid.Column="3"
                 Background="Beige">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -169,7 +170,7 @@
 
         <!-- Inventory and Quests -->
         <Grid Grid.Row="2" Grid.Column="0"
-              Background="BurlyWood" Grid.ColumnSpan="2">
+              Background="BurlyWood" Grid.ColumnSpan="3">
 
             <TabControl>
                 <TabItem Header="Inventory">
@@ -187,7 +188,7 @@
                     </DataGrid>
                 </TabItem>
 
-                <TabItem Header="Quests">
+                <TabItem Header="Quests ---">
                     <DataGrid ItemsSource="{Binding CurrentPlayer.Quests}"
                               AutoGenerateColumns="False"
                               HeadersVisibility="Column">
@@ -206,7 +207,7 @@
         </Grid>
 
         <!--- Action controls -->
-        <Grid Grid.Row="2" Grid.Column="2"
+        <Grid Grid.Row="2" Grid.Column="3"
               Background="Lavender">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
