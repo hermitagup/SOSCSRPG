@@ -188,7 +188,7 @@
                     </DataGrid>
                 </TabItem>
 
-                <TabItem Header="Quests ---">
+                <TabItem Header="Quests">
                     <DataGrid ItemsSource="{Binding CurrentPlayer.Quests}"
                               AutoGenerateColumns="False"
                               HeadersVisibility="Column">
