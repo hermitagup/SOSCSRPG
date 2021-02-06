@@ -24,8 +24,8 @@ namespace Engine.Models
             Description = description;
             ItemsToComplete = itemsToComplete;
             RewardExperiencePoints = rewardExperiencePoints;
-            RewardGold = RewardGold;
-            RewardItems = RewardItems;
+            RewardGold = rewardGold;
+            RewardItems = rewardItems;
         }
     }
 }
