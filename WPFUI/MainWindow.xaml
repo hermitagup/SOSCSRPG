@@ -165,15 +165,19 @@
  
             <TabControl>
                 <TabItem Header="Inventory">
-                    <DataGrid ItemsSource="{Binding CurrentPlayer.Inventory}"
+                    <DataGrid ItemsSource="{Binding CurrentPlayer.GroupedInventory}"
                               AutoGenerateColumns="False"
                               HeadersVisibility="Column">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Description"
-                                                Binding="{Binding Name}"
+                                                Binding="{Binding Item.Name}"
                                                 Width="*"/>
+                            <DataGridTextColumn Header="Qty"
+                                                IsReadOnly="True"
+                                                Width="Auto"
+                                                Binding="{Binding Quantity}"/>
                             <DataGridTextColumn Header="Price"
-                                                Binding="{Binding Price}"
+                                                Binding="{Binding Item.Price}"
                                                 Width="Auto"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -263,6 +267,7 @@
                         Content="West"/>
                 <Button Grid.Row="1" Grid.Column="1"
                         Height="25" Width="65" Margin="10"
+                        Click="OnClick_DisplayTradeScreen"
                         Visibility="{Binding HasTrader, Converter={StaticResource BooleanToVisibility}}"
                         Content="Trade"/>
                 <Button Grid.Row="1" Grid.Column="2"

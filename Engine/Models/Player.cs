@@ -8,24 +8,11 @@ namespace Engine.Models
     {
         #region Properties
 
-        //private string _name; Removed on 10.1 as inheriting from LivingEntity class
         private string _characterClass;
-
-        //private int _hitPoints; Removed on 10.1 as inheriting from LivingEntity class
         private int _experiencePoints;
         private int _level;
-        //private int _gold; Removed on 10.1 as inheriting from LivingEntity class
 
         #endregion
-
-        //private string _name; Removed on 10.1 as inheriting from LivingEntity class
-        /*public string Name {
-            get { return _name; }
-            set { 
-                _name = value;
-                OnPropertyChanged(nameof(Name));
-            }
-        }*/
 
         public string CharacterClass {
             get { return _characterClass; }
@@ -34,14 +21,7 @@ namespace Engine.Models
                 OnPropertyChanged(nameof(CharacterClass));
             }
         }
-        //private int _hitPoints; Removed on 10.1 as inheriting from LivingEntity class
-        /*public int HitPoints {
-            get { return _hitPoints; }
-            set {
-                _hitPoints = value;
-                OnPropertyChanged(nameof(HitPoints));
-            }
-        }*/
+
         public int ExperiencePoints
         {
             get { return _experiencePoints; }
@@ -58,27 +38,6 @@ namespace Engine.Models
                 OnPropertyChanged(nameof(Level));
             }
         }
-        //private int _gold; Removed on 10.1 as inheriting from LivingEntity class
-        /*public int Gold {
-            get { return _gold; }
-            set {
-                _gold = value;
-                OnPropertyChanged(nameof(Gold));
-            }
-        }*/
-
-        //Removed on 10.1 as inheriting from LivingEntity class
-        //public ObservableCollection<GameItem> Inventory { get; set; }   // New data type 'OvservableCollection' with new property 'Inventory' with getter and setter 
-                                                                        // new data type requires refference to Collection.ObjectModel namespace 
-                                                                        // we are using this data type as it automatically handles all the notifications (no need of like 'OnPropertyChanged'))
-
-        //Removed on 10.1 as inheriting from LivingEntity class
-        //public List<GameItem> Weapons =>
-        //    Inventory.Where(i => i is Weapon).ToList();                 // instead of using getter & setter we use this method (called link statements), saying whenever anything is accessing the Weapons property, it's going
-                                                                        // to return the inventory items, where the item is a weapon.
-                                                                        // the .ToList() allows us to force this to materialize the results | as deffered query, without forcing sometimes we would not get results.
-                                                                        // List is not automatically updated like ObservableCollection, we need to raise property change event to notify UI, whenever Weapon List change => AddItemToInventory()
-
 
         public ObservableCollection<QuestStatus> Quests { get; set; }   // New data type 'OvservableCollection' with new property 'Quests' with getter and setter 
                                                                         // new data type requires refference to Collection.ObjectModel namespace 
@@ -87,19 +46,6 @@ namespace Engine.Models
         public Player() {
             //Inventory = new ObservableCollection<GameItem>();   Removed on 10.1 as inheriting from LivingEntity class
             Quests = new ObservableCollection<QuestStatus>();   //This will instanciate new ObserverCollevtion list of QuestsStatus and set Quests property to that value
-        }
-
-        //Removed on 10.1 as inheriting from LivingEntity class
-        /*public void AddItemToInventory(GameItem item) {
-            Inventory.Add(item);                    // this will add new item to our inventory
-            OnPropertyChanged(nameof(Weapons));     // this function will raise PropertyChange event for Weapons. UI will know that need to check if there is an update for Weapon list (UI will check and know if need to update ComboBox)
-
-        }*/
-
-        public void RemoveItemFromInventory(GameItem item) // this will remove items from player's inventory
-        {
-            Inventory.Remove(item);
-            OnPropertyChanged(nameof(Weapons)); // this functions will raise PropertyChange event for Weapons
         }
 
         public bool HasAllTheseItems(List<ItemQuantity> items) // this function check if the player has all the items required to complete the quest

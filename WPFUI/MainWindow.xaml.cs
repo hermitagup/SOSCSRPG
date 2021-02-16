@@ -1,19 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Engine.EventArgs;
+﻿using Engine.EventArgs;
 using Engine.ViewModels;   //Adding this using will instantiating Games Model object inside MainWindow class
+using System.Windows;
+using System.Windows.Documents;
 
 namespace WPFUI
 {
@@ -60,5 +48,14 @@ namespace WPFUI
             GameMessages.Document.Blocks.Add(new Paragraph(new Run(e.Message)));
             GameMessages.ScrollToEnd();
         }
+
+        private void OnClick_DisplayTradeScreen(object sender, RoutedEventArgs e) {
+            TradeScreen tradeScreen = new TradeScreen();
+            tradeScreen.Owner = this;
+            tradeScreen.DataContext = _gameSession;
+            tradeScreen.ShowDialog();   // Show() - creates not modal window where you can still interact and click buttons on main window | ShowDialog() - creates modal window where focus is in a new window and main window interaction is no more possible.
+        }
+
+
     }
 }

@@ -51,21 +51,54 @@ namespace Engine.Models
 
         public ObservableCollection<GameItem> Inventory { get; set; }
 
+        public ObservableCollection<GroupedInventoryItem> GroupedInventory { get; set; }
+
         public List<GameItem> Weapons =>
                 Inventory.Where(i => i is Weapon).ToList();
 
         protected LivingEntity()   // added as void - no return type required ?
         {
             Inventory = new ObservableCollection<GameItem>();
+            GroupedInventory = new ObservableCollection<GroupedInventoryItem>();
         }
         public void AddItemToInventory(GameItem item) {
             Inventory.Add(item);
+
+            if (item.IsUnique) // If item is unique
+            {
+                GroupedInventory.Add(new GroupedInventoryItem(item, 1)); // add new item with quantity =1
+            }
+            else //if item is not unique
+            {
+                if (!GroupedInventory.Any(gi => gi.Item.ItemTypeID == item.ItemTypeID)) // if there is not at least 1 item of a given ID
+                {
+                    GroupedInventory.Add(new GroupedInventoryItem(item, 0)); // create a new GroupedInventory item with quantity == 0, we are adding 0 as we always running next line where we increment item quantity by 1
+                }
+                GroupedInventory.First(gi => gi.Item.ItemTypeID == item.ItemTypeID).Quantity++; // here incerement item quantity
+            }
+
             OnPropertyChanged(nameof(Weapons));
         }
-        public void RemoveItemToInventory(GameItem item)
+        public void RemoveItemFromInventory(GameItem item)
         {
             Inventory.Remove(item);
-            OnPropertyChanged(nameof(Weapons));
+
+            GroupedInventoryItem groupedInventoryItemToRemove =
+                GroupedInventory.FirstOrDefault(gi => gi.Item == item); // getting 1st item from GroupedInventory property where the item matches item we want to remove
+
+            if (groupedInventoryItemToRemove != null)   // check if we found any matching object in inventory
+            {
+                if (groupedInventoryItemToRemove.Quantity ==1) // if item quantity is eq 1 , remove whole entry
+                {
+                    GroupedInventory.Remove(groupedInventoryItemToRemove);
+                }
+                else // if item quantity is more than 1
+                {
+                    groupedInventoryItemToRemove.Quantity--; // decrement by 1
+                }
+            }
+
+            OnPropertyChanged(nameof(Weapons)); // this functions will raise PropertyChange event for Weapons
         }
     }
 }
