@@ -1,38 +1,20 @@
-﻿using Engine.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-<<<<<<< Updated upstream
-using System.Text;
-using System.Threading.Tasks;
-// logika gry, polaczenie z player
-=======
 using Engine.Models;
 using Engine.Factories;
 using System.ComponentModel;
 using Engine.EventArgs;
->>>>>>> Stashed changes
+using System.Runtime.Remoting.Messaging;
 
 namespace Engine.ViewModels
 {
-    public class GameSession
+    public class GameSession : BaseNotificationClass
     {
-<<<<<<< Updated upstream
-        public Player CurrentPlayer { get; set; } // ustawienie klasy 'Player' 
-        
-        public GameSession() // Konstruktor (funkcja) gamesession
-        {
-            CurrentPlayer = new Player();
-            CurrentPlayer.Name = "Scott";
-            CurrentPlayer.Gold = 1000000;
-=======
         public event EventHandler<GameMessageEventArgs> OnMessageRaised;  //This is handler that works like "In a view model when you raise this event, you should run this function from a view object."
 
         #region Properties
         private Location _currentLocation;
         private Monster _currentMonster;
-        private Trader _currentTrader;
-
         public World CurrentWorld { get; set; }
         public Player CurrentPlayer { get; set; }
         public Location CurrentLocation                     // When CurrentLocation changes
@@ -48,9 +30,9 @@ namespace Engine.ViewModels
                 OnPropertyChanged(nameof(HasLocationToSouth));       // renaming string "HasLocationToSouth" to name of CurrentLocation property 'nameof(HasLocationToSouth)' to make it instantly updated everytime we update property name, 
                                                                      // otherwise property name will be updated in a project but not here as this is a string and does not really reflect the property name in a n active way!
                                                                      // 'OnPropertyChanged' is inherited from BaseNotificationClass <-- hover over it to confirm!
-                                                                     // check if there are new quests when player moves to new location
-                CompleteQuestsAtLocation();
-                GivePlayerQuestsAtLocation();
+
+                CompleteQuestsAtLocation();                           // 
+                GivePlayerQuestsAtLocation();                        // check if there are new quests when player moves to new location
                 GetMonsterAtLocation();
             }
         }
@@ -66,14 +48,6 @@ namespace Engine.ViewModels
                     RaiseMessage($"You see a {CurrentMonster.Name} here!"); 
                 }
             
-            }
-        }
-
-        public Trader CurrentTrader { // a new propery backing variable '_currentTrader'
-            get { return _currentTrader; }
-            set  { _currentTrader = value; 
-                OnPropertyChanged(nameof(CurrentTrader));
-                OnPropertyChanged(nameof(HasTrader));
             }
         }
 
@@ -100,9 +74,6 @@ namespace Engine.ViewModels
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
 
         public bool HasMonster => CurrentMonster != null;   //bool property to check if there is a monster. '=>' - this is an expression body and is used instead of get like in HasLocationToXYZ , same like 'return CurrentWorld.,, calculation'
-        
-        public bool HasTrader => CurrentTrader != null; // check if currentTrader is not null and display 'Trade' button
-
         public GameSession()    // GameSession constructor - part of a code run when object is being created.
        
         {
@@ -167,17 +138,22 @@ namespace Engine.ViewModels
             }
         }
 
-        private void CompleteQuestsAtLocation() {
-            foreach (Quest quest in CurrentLocation.QuestsAvailableHere) {
+        private void CompleteQuestsAtLocation()
+        {
+            foreach (Quest quest in CurrentLocation.QuestsAvailableHere)                                // for each quest available in curent location...
+            {
                 QuestStatus questToComplete =
-                    CurrentPlayer.Quests.FirstOrDefault(q => q.PlayerQuest.ID == quest.ID &&
-                                                             !q.IsCompleted);
-
-                if (questToComplete != null) {
-                    if (CurrentPlayer.HasAllTheseItems(quest.ItemsToComplete)) {
+                    CurrentPlayer.Quests.FirstOrDefault(q => q.PlayerQuest.ID == quest.ID && !q.IsCompleted);   // Check players quests and get first one with matches ID and is not completed
+                                                                                                                // If player has already completed quest, this will return Default (as no new quest for Player to complete)
+                if (questToComplete != null)
+                {
+                    if (CurrentPlayer.HasAllTheseItems(quest.ItemsToComplete))
+                    {
                         // Remove the quest completion items from the player's inventory
-                        foreach (ItemQuantity itemQuantity in quest.ItemsToComplete)               {
-                            for (int i = 0; i < itemQuantity.Quantity; i++) {
+                        foreach (ItemQuantity itemQuantity in quest.ItemsToComplete)
+                        {
+                            for (int i = 0; i < itemQuantity.Quantity; i++)
+                            {
                                 CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.Inventory.First(item => item.ItemTypeID == itemQuantity.ItemID));
                             }
                         }
@@ -185,26 +161,32 @@ namespace Engine.ViewModels
                         RaiseMessage("");
                         RaiseMessage($"You completed the '{quest.Name}' quest");
 
-                        // Give the player the quest rewards
+                        //Give the player the quest rewards
                         CurrentPlayer.ExperiencePoints += quest.RewardExperiencePoints;
                         RaiseMessage($"You receive {quest.RewardExperiencePoints} experience points");
 
                         CurrentPlayer.Gold += quest.RewardGold;
                         RaiseMessage($"You receive {quest.RewardGold} gold");
 
-                        foreach (ItemQuantity itemQuantity in quest.RewardItems) {
+                        foreach (ItemQuantity itemQuantity in quest.RewardItems)
+                        {
                             GameItem rewardItem = ItemFactory.CreateGameItem(itemQuantity.ItemID);
 
                             CurrentPlayer.AddItemToInventory(rewardItem);
-                            RaiseMessage($"You receive a {rewardItem.Name}");
+                            RaiseMessage($"You receive {rewardItem.Name}");
                         }
 
-                        // Mark the Quest as completed
+                        //Marking Quest as completed
                         questToComplete.IsCompleted = true;
                     }
                 }
             }
         }
+
+
+
+
+
 
         private void GivePlayerQuestsAtLocation() {
             foreach (Quest quest in CurrentLocation.QuestsAvailableHere) {
@@ -216,15 +198,15 @@ namespace Engine.ViewModels
                     RaiseMessage(quest.Description);
 
                     RaiseMessage("Return with:");
-                    foreach (ItemQuantity itemQuantity in quest.ItemsToComplete) {
-                        RaiseMessage($"   {itemQuantity.Quantity} {ItemFactory.CreateGameItem(itemQuantity.ItemID).Name}");
+                    foreach (ItemQuantity itemQuantity in quest.ItemsToComplete){
+                        RaiseMessage($"    {itemQuantity.Quantity} {ItemFactory.CreateGameItem(itemQuantity.ItemID).Name}");
                     }
 
                     RaiseMessage("And you will receive:");
-                    RaiseMessage($"   {quest.RewardExperiencePoints} experience points");
-                    RaiseMessage($"   {quest.RewardGold} gold");
-                    foreach (ItemQuantity itemQuantity in quest.RewardItems) {
-                        RaiseMessage($"   {itemQuantity.Quantity} {ItemFactory.CreateGameItem(itemQuantity.ItemID).Name}");
+                    RaiseMessage($"    {quest.RewardExperiencePoints} experience points");
+                    RaiseMessage($"    {quest.RewardGold} gold");
+                    foreach (ItemQuantity itemQuantity in quest.RewardItems){
+                        RaiseMessage($"    {itemQuantity.Quantity} {ItemFactory.CreateGameItem(itemQuantity.ItemID).Name}");
                     }
                 }
             }
@@ -301,7 +283,6 @@ namespace Engine.ViewModels
 
         private void RaiseMessage(string message) {
             OnMessageRaised?.Invoke(this, new GameMessageEventArgs(message)); //
->>>>>>> Stashed changes
         }
     }
 }

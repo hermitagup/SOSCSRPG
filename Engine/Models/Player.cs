@@ -1,27 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-<<<<<<< Updated upstream
-=======
 using System.Collections.ObjectModel;
 using System.ComponentModel;
->>>>>>> Stashed changes
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Engine.Models 
+namespace Engine.Models
 {
-<<<<<<< Updated upstream
-    public class Player // klasa player, z parametrami
-    {
-        public string Name { get; set; }
-        public string CharacterClass { get; set; }
-        public int HitPoints { get; set; }
-        public int Level { get; set; }
-        public int Gold { get; set; }
-
-
-=======
     public class Player : BaseNotificationClass     // Before--> "Player : INotifyPropertyChanged" klasa player, z parametrami { INotifyPropertyChange will notify that change to any of the property in a Player class was made and anything that is using those properties will know to update values accordingly
     {
         private string _name;
@@ -102,18 +88,21 @@ namespace Engine.Models
         }
 
         public void RemoveItemFromInventory(GameItem item) {
-            Inventory.Remove(item);                 // this will remove item from our invenotry
-            OnPropertyChanged(nameof(Weapons));     // this function will raise PropertyChange event for Weapons. UI will know ?)
+            Inventory.Remove(item);                 // this will remove item from players inventory
+            OnPropertyChanged(nameof(Weapons));     // this function will raise PropertyChange event for Weapons. UI will know that need to check if there is an update for Weapon list (UI will check and know if need to update ComboBox)
         }
 
-        public bool HasAllTheseItems(List<ItemQuantity> items) { //this function will check if the player has all the items required to complete the quest
-            foreach (ItemQuantity item in items) { // accepts a list of ItemQuantity objects and looks through the player’s inventory
-                if (Inventory.Count(i => i.ItemTypeID == item.ItemID) < item.Quantity) { // If the count of items is less than the number required in the parameter, the function returns “false” – the player does not have all the items
+        public bool HasAllTheseItems(List<ItemQuantity> items) {                        // Passing list of quantity objects (Quest objects required to complete quest)
+            foreach (ItemQuantity item in items)                                        // Checking each of passed item
+            {
+                if (Inventory.Count(i=> i.ItemTypeID == item.ItemID) < item.Quantity)   // Looking into players inventory and count how many items they have in their inventory, where the item Id matches
+                {                                                                       // If the count is less than count needed from the passed parameter (passed list), returning false, else return true
                     return false;
                 }
             }
-            return true; //  If the player has a large enough quantity, for all the items passed into the function, it will return “true”
+            return true;
         }
->>>>>>> Stashed changes
+
+            
     }
 }

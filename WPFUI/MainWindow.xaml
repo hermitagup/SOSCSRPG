@@ -3,10 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WPFUI"
+        xmlns:viewModels="clr-namespace:Engine.ViewModels;assembly=Engine"
+        d:DataContext="{d:DesignInstance viewModels:GameSession}"
         mc:Ignorable="d"
-        Title="Karol's windows RPG :)" Height="450" Width="800">
-=======
         FontSize="11pt"
         Title="Ours Form RPG :)" Height="768" Width="1024">
     <Window.Resources>
@@ -24,10 +23,6 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Menu" Background="AliceBlue"/>
-        <Label Grid.Row="1" Grid.Column="0" Content="Player Data" Background="Aquamarine"/>
-
-=======
         <!-- Menu -->
         <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Content="Menu" Background="AliceBlue"/>
 
@@ -40,32 +35,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-                <Label Grid.Row="0" Grid.Column="0" Content="Name:"/>
-                <Label Grid.Row="0" Grid.Column="1" Content="name value"/>
-                <Label Grid.Row="1" Grid.Column="0" Content="Class:"/>
-                <Label Grid.Row="1" Grid.Column="1" Content="class value"/>
-                <Label Grid.Row="2" Grid.Column="0" Content="Hit points:"/>
-                <Label Grid.Row="2" Grid.Column="1" Content="hit points value"/>
-                <Label Grid.Row="3" Grid.Column="0" Content="Gold:"/>
-                <Label Grid.Row="3" Grid.Column="1" Content="gold value"/>
-                <Label Grid.Row="4" Grid.Column="0" Content="XP:"/>
-                <Label Grid.Row="4" Grid.Column="1" Content="xp value"/>
-                <Label Grid.Row="5" Grid.Column="0" Content="Level:"/>
-                <Label Grid.Row="5" Grid.Column="1" Content="level value"/>
-
-            </Grid>
-            
-            <Label Grid.Row="1" Grid.Column="1" Content="Game Data" Background="Beige"/>
-        <Label Grid.Row="2" Grid.Column="0" Content="Inventory/Quest" Background="BurlyWood"/>
-        <Label Grid.Row="2" Grid.Column="1" Content="Combat/Movement Controls" Background="Lavender"/>
-        
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -291,10 +263,6 @@
                         Click="OnClick_MoveWest"
                         Visibility="{Binding HasLocationToWest, Converter={StaticResource BooleanToVisibility}}"
                         Content="West"/>
-				<Button Grid.Row="1" Grid.Column="1"
-                        Height="25" Width="65" Margin="10"
-                        Visibility="{Binding HasTrader, Converter={StaticResource BooleanToVisibility}}"
-                        Content="Trade"/>		
                 <Button Grid.Row="1" Grid.Column="2" 
                         Height="25" Width="65" Margin="10" 
                         Click="OnClick_MoveEast"

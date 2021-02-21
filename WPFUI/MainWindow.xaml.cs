@@ -12,7 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Engine.ViewModels; // dodanie Games Model klasy do MainDiwndow 
+using Engine.EventArgs;
+using Engine.ViewModels;   //Adding this using will instantiating Games Model object inside MainWindow class
 
 namespace WPFUI
 {
@@ -21,19 +22,43 @@ namespace WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GameSession _gameSession; // inicjacja nowego obiektu GameSession 
-
+        private readonly GameSession _gameSession = new GameSession();  // Declaring private readonly variable and Instantiating new GameSession object when starting new window
+                                                                        // Now our View will have player and game session to work with (Player object is instantiatet in GameSession class.
         public MainWindow()
         {
-        
             InitializeComponent();
-
-            _gameSession = new GameSession();
-
-            DataContext = _gameSession;
+            _gameSession.OnMessageRaised += OnGameMessageRaised; //funciton to handle event
+            DataContext = _gameSession;  // This is what is XAML file is going to use for it's values.
         }
 
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        private void OnClick_MoveNorth (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
+        {
+            _gameSession.MoveNorth();
+        }
+
+        private void OnClick_MoveWest (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
+        {
+            _gameSession.MoveWest();
+        }
+
+        private void OnClick_MoveEast (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
+        {
+            _gameSession.MoveEast();
+        }
+
+        private void OnClick_MoveSouth (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
+        {
+            _gameSession.MoveSouth();
+        }
+
+        private void OnClick_AttackMonster(object sender, RoutedEventArgs e) { 
+            _gameSession.AttackCurrentMonster();
+        }
+        
+        
+        private void OnGameMessageRaised(object sender, GameMessageEventArgs e) {
+            GameMessages.Document.Blocks.Add(new Paragraph(new Run(e.Message)));
+            GameMessages.ScrollToEnd();
+        }
     }
 }
-
