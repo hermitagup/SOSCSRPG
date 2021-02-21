@@ -31,6 +31,8 @@ namespace Engine.ViewModels
         #region Properties
         private Location _currentLocation;
         private Monster _currentMonster;
+        private Trader _currentTrader;
+
         public World CurrentWorld { get; set; }
         public Player CurrentPlayer { get; set; }
         public Location CurrentLocation                     // When CurrentLocation changes
@@ -67,6 +69,14 @@ namespace Engine.ViewModels
             }
         }
 
+        public Trader CurrentTrader { // a new propery backing variable '_currentTrader'
+            get { return _currentTrader; }
+            set  { _currentTrader = value; 
+                OnPropertyChanged(nameof(CurrentTrader));
+                OnPropertyChanged(nameof(HasTrader));
+            }
+        }
+
         public Weapon CurrentWeapon { get; set; }   // property of data type Weapon to know what's the current selected weapon is for a player
 
         // Before refactoring this bit of a code (example)
@@ -90,6 +100,9 @@ namespace Engine.ViewModels
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
 
         public bool HasMonster => CurrentMonster != null;   //bool property to check if there is a monster. '=>' - this is an expression body and is used instead of get like in HasLocationToXYZ , same like 'return CurrentWorld.,, calculation'
+        
+        public bool HasTrader => CurrentTrader != null; // check if currentTrader is not null and display 'Trade' button
+
         public GameSession()    // GameSession constructor - part of a code run when object is being created.
        
         {

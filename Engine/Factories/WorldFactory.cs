@@ -22,6 +22,8 @@ namespace Engine.Factories
             newWorld.AddLocation(-1, -1, "Farmer's House",
                 "This is the house of your neighbor, Farmer Ted.",
                 "Farmhouse.png");
+            newWorld.LocationAt(-1, -1).TraderHere =
+                TraderFactory.GetTraderByName("Farmer Ted");
 
             newWorld.AddLocation(0, -1, "Home", 
                 "This is your home",
@@ -30,6 +32,8 @@ namespace Engine.Factories
             newWorld.AddLocation(-1, 0, "Trading Shop",
                 "The shop of Susan, the trader.",
                 "Trader.png");
+            newWorld.LocationAt(-1, 0).TraderHere =
+               TraderFactory.GetTraderByName("Susan");
 
             newWorld.AddLocation(0, 0, "Town square",
                 "You see a fountain here.",
@@ -48,6 +52,8 @@ namespace Engine.Factories
             newWorld.AddLocation(0, 1, "Herbalist's hut",
                 "You see a small hut, with plants drying from the roof.",
                 "HerbalistsHut.png");
+            newWorld.LocationAt(0, 1).TraderHere =
+                TraderFactory.GetTraderByName("Pete the Herbalist");
 
             newWorld.LocationAt(0, 1).QuestsAvailableHere.Add(QuestFactory.GetQuestByID(1)); //(0) This takes from World, that takes From Location and gives ass property 'QuestAvailableHere'
                                                                                              //Line (1) & (2) doing same as line (0) 
