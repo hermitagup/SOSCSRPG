@@ -17,9 +17,11 @@ namespace Engine.Models
         public List<MonsterEncounter> MonstersHere { get; set; } =
             new List<MonsterEncounter>();
 
+        public Trader TraderHere { get; set; } //trader live here; if location has trader it will be populated 
+
         public void AddMonster(int monsterID, int chanceOfEncountering)
         {
-            if(MonstersHere.Exists(m => m.MonsterID == monsterID))
+            if (MonstersHere.Exists(m => m.MonsterID == monsterID))
             {
                 // This monster has already been added to this location.
                 // So, overwrite the ChanceOfEncountering with the new number.
@@ -35,7 +37,7 @@ namespace Engine.Models
 
         public Monster GetMonster()
         {
-            if(!MonstersHere.Any())
+            if (!MonstersHere.Any())
             {
                 return null;
             }
@@ -52,11 +54,11 @@ namespace Engine.Models
             // that is the monster to return.
             int runningTotal = 0;
 
-            foreach(MonsterEncounter monsterEncounter in MonstersHere)
+            foreach (MonsterEncounter monsterEncounter in MonstersHere)
             {
                 runningTotal += monsterEncounter.ChanceOfEncountering;
 
-                if(randomNumber <= runningTotal)
+                if (randomNumber <= runningTotal)
                 {
                     return MonsterFactory.GetMonster(monsterEncounter.MonsterID);
                 }

@@ -15,6 +15,7 @@ namespace Engine.ViewModels
         #region Properties
         private Location _currentLocation;
         private Monster _currentMonster;
+        private Trader _currentTrader;
         public World CurrentWorld { get; set; }
         public Player CurrentPlayer { get; set; }
         public Location CurrentLocation                     // When CurrentLocation changes
@@ -34,6 +35,8 @@ namespace Engine.ViewModels
                 CompleteQuestsAtLocation();                           // 
                 GivePlayerQuestsAtLocation();                        // check if there are new quests when player moves to new location
                 GetMonsterAtLocation();
+
+                CurrentTrader = CurrentLocation.TraderHere;         // CurrentTrader will be set when the player moves to a new location
             }
         }
         #endregion
@@ -48,6 +51,14 @@ namespace Engine.ViewModels
                     RaiseMessage($"You see a {CurrentMonster.Name} here!"); 
                 }
             
+            }
+        }
+
+        public Trader CurrentTrader {
+            get { return _currentTrader; }
+            set { _currentTrader = value;
+                OnPropertyChanged(nameof(CurrentTrader));   // inform UI about change
+                OnPropertyChanged(nameof(HasTrader));      // inform UI about change
             }
         }
 
@@ -74,6 +85,8 @@ namespace Engine.ViewModels
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
 
         public bool HasMonster => CurrentMonster != null;   //bool property to check if there is a monster. '=>' - this is an expression body and is used instead of get like in HasLocationToXYZ , same like 'return CurrentWorld.,, calculation'
+
+        public bool HasTrader => CurrentTrader != null;     // to use for the UI to decide whether or not to display the “Trade” button – based on whether or not there is a CurrentTrader
         public GameSession()    // GameSession constructor - part of a code run when object is being created.
        
         {
