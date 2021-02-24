@@ -42,7 +42,12 @@ namespace Engine.Models
                                                                         // new data type requires refference to Collection.ObjectModel namespace 
                                                                         // we are using this data type as it automatically updates UI when new Quest or completes current
 
-        public Player() {
+        public Player(string name, string characterClass, int experiencePoints,
+                        int maximumHitPoints, int currentHitPoints, int gold):
+                        base(name, maximumHitPoints, currentHitPoints, gold)
+        {
+            CharacterClass = characterClass;
+            ExperiencePoints = experiencePoints;
             Quests = new ObservableCollection<QuestStatus>();   //This will instanciate new ObserverCollevtion list of QuestsStatus and set Quests property to that value
         }
 

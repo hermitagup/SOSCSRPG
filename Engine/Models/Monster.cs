@@ -10,19 +10,15 @@ namespace Engine.Models
         public int RewardExperiencePoints { get; private set; }
        
         public Monster(string name, string imageName,
-            int maximumHitPoints, int hitPoints,
+            int maximumHitPoints, int currentHitPoints,
             int minimumDamage, int maximumDamage,
-            int rewardExperiencePoints, int rewardGold)
+            int rewardExperiencePoints, int gold) :
+            base(name, maximumHitPoints, currentHitPoints, gold)
         {
-            Name = name;
-            //ImageName = string.Format("/Engine;component/Images/Monsters/{0}", imageName);    <- this was concatenated string now we use string interpolation = '$' + '{var}'
             ImageName = $"/Engine;component/Images/Monsters/{imageName}";
-            MaximumHitPoints = maximumHitPoints;
-            CurrentHitPoints = hitPoints;
             MinimumDamage = minimumDamage;
-            MaximumDamage = maximumDamage;
+            MaximumDamage = maximumHitPoints;
             RewardExperiencePoints = rewardExperiencePoints;
-            Gold = rewardGold;
         }
     }
 }
