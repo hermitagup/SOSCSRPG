@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Engine.Models
 {
     // abstract class means you can never instantiate this class (you can instantiate a child that is using this class f.ex: player, monster, trader class are going to do 
+    // one of the principles of Object Oriented Programming is encapsulation - mean one object can't modify directly properties of another object, instead first object has to call a function on a second object to mofidy property
+    // (instead of Object 1 - I am changing your properties Object 2, Object 1 is asking Object 2 to change property - plus we can add more logic to those changes like overheal or set value outside of scope)
     public abstract class LivingEntity : BaseNotificationClass
     {
+        #region Properties
+
         private string _name;
         private int _currentHitPoints;
         private int _maximumHitPoints;
@@ -14,15 +19,15 @@ namespace Engine.Models
 
         public string Name {
             get { return _name; }
-            set {
+            private set {                           // private set means that it can be only changed inside this class
                 _name = value;
                 OnPropertyChanged(nameof(Name));
             }
         }
 
-        public int CurrentHitPoints { 
+        public int CurrentHitPoints {
             get { return _currentHitPoints; }
-            set { 
+            private set {
                 _currentHitPoints = value;
                 OnPropertyChanged(nameof(CurrentHitPoints));
             }
@@ -32,7 +37,7 @@ namespace Engine.Models
         public int MaximumHitPoints
         {
             get { return _maximumHitPoints; }
-            set
+            private set
             {
                 _maximumHitPoints = value;
                 OnPropertyChanged(nameof(MaximumHitPoints));
@@ -42,7 +47,7 @@ namespace Engine.Models
         public int Gold
         {
             get { return _gold; }
-            set
+            private set
             {
                 _gold = value;
                 OnPropertyChanged(nameof(Gold));
@@ -56,11 +61,57 @@ namespace Engine.Models
         public List<GameItem> Weapons =>
                 Inventory.Where(i => i is Weapon).ToList();
 
-        protected LivingEntity()   // added as void - no return type required ?
+        public bool IsDead => CurrentHitPoints <= 0;
+
+        #endregion
+
+        public event EventHandler OnKilled;
+
+        protected LivingEntity(string name, int maximumHitPoints, int currentHitPoints, int gold)   // added as void - no return type required ?
         {
+            Name = name;
+            MaximumHitPoints = maximumHitPoints;
+            CurrentHitPoints = currentHitPoints;
+            Gold = gold;
+
             Inventory = new ObservableCollection<GameItem>();
             GroupedInventory = new ObservableCollection<GroupedInventoryItem>();
         }
+
+        public void TakeDamage(int hitPointsOfDamage) {
+            CurrentHitPoints -= hitPointsOfDamage;
+            if (IsDead)
+            {
+                CurrentHitPoints = 0;   // this will ensure that we are not going to negative value of hp (is it mandatory? if(IsDead) whatever HP value is , we are in and do RaiseOnKilledEvent()
+                RaiseOnKilledEvent();
+            }
+        }
+
+        public void Heal(int hitPointsToHeal) {
+            CurrentHitPoints += hitPointsToHeal;
+            if (CurrentHitPoints >MaximumHitPoints)
+            {
+                CurrentHitPoints = MaximumHitPoints;
+            }
+        }
+
+        public void CompletelyHeal() {
+            CurrentHitPoints = MaximumHitPoints;
+        }
+
+        public void ReceiveGold(int amountOfGold) {
+            Gold += amountOfGold;
+        }
+
+        public void SpendGold(int amountOfGold) {
+            if (amountOfGold > Gold)
+            {
+                throw new ArgumentOutOfRangeException($"{Name} only has {Gold} gold, and cannot spend {amountOfGold} gold");
+            }
+
+            Gold -= amountOfGold;
+        } 
+
         public void AddItemToInventory(GameItem item) {
             Inventory.Add(item);
 
@@ -100,5 +151,13 @@ namespace Engine.Models
 
             OnPropertyChanged(nameof(Weapons)); // this functions will raise PropertyChange event for Weapons
         }
+
+        #region Private functions
+
+        private void RaiseOnKilledEvent() {
+            OnKilled?.Invoke(this, new System.EventArgs()); // What does it mean ? "?." | this will look into OnKilled event and see if any subscribers are into it and if yes rais an event 
+        }                                                   // (subscriber here is GameSession obj and will know if the Player is killed or a Monster)
+
+        #endregion
     }
 }

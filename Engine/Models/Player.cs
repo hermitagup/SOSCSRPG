@@ -12,8 +12,6 @@ namespace Engine.Models
         private int _experiencePoints;
         private int _level;
 
-        #endregion
-
         public string CharacterClass {
             get { return _characterClass; }
             set {
@@ -42,9 +40,13 @@ namespace Engine.Models
         public ObservableCollection<QuestStatus> Quests { get; set; }   // New data type 'OvservableCollection' with new property 'Quests' with getter and setter 
                                                                         // new data type requires refference to Collection.ObjectModel namespace 
                                                                         // we are using this data type as it automatically updates UI when new Quest or completes current
+        #endregion
 
-        public Player() {
-            //Inventory = new ObservableCollection<GameItem>();   Removed on 10.1 as inheriting from LivingEntity class
+        public Player(string name, string characterClass, int experiencePoints, int maximumHitPoints, int currentHitPoints, int gold) : base (name, maximumHitPoints, currentHitPoints, gold) {
+
+            CharacterClass = characterClass;
+            ExperiencePoints = experiencePoints;
+
             Quests = new ObservableCollection<QuestStatus>();   //This will instanciate new ObserverCollevtion list of QuestsStatus and set Quests property to that value
         }
 
