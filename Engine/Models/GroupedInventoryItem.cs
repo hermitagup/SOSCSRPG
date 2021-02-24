@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Engine.Models
-{
-    public class GroupedInventoryItem : BaseNotificationClass
-    {
+namespace Engine.Models {
+    public class GroupedInventoryItem : BaseNotificationClass {
         private GameItem _item;
         private int _quantity;
 
@@ -19,7 +17,7 @@ namespace Engine.Models
             }
         }
 
-        public int Quantity{
+        public int Quantity {
             get { return _quantity; }
             set {
                 _quantity = value;

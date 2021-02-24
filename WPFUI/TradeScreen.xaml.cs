@@ -9,7 +9,7 @@ namespace WPFUI
     /// </summary>
     public partial class TradeScreen : Window
     {
-        public GameSession Session => DataContext as GameSession;
+        public GameSession Session => DataContext as GameSession; //wraps all data as GameSession context
 
         public TradeScreen()
         {
@@ -18,7 +18,7 @@ namespace WPFUI
 
         private void OnClick_Sell(object sender, RoutedEventArgs e)
         {
-            GroupedInventoryItem groupedInventoryItem = 
+            GroupedInventoryItem groupedInventoryItem =
                 ((FrameworkElement)sender).DataContext as GroupedInventoryItem; //this helps to determine which row button was pressed
 
             if (groupedInventoryItem != null)
@@ -31,7 +31,7 @@ namespace WPFUI
 
         private void OnClick_Buy(object sender, RoutedEventArgs e)
         {
-            GroupedInventoryItem groupedInventoryItem = 
+            GroupedInventoryItem groupedInventoryItem =
                 ((FrameworkElement)sender).DataContext as GroupedInventoryItem; //this helps to determine which row button was pressed
 
             if (groupedInventoryItem != null)
