@@ -124,10 +124,13 @@ namespace Engine.Models
         public void RemoveItemFromInventory(GameItem item) {
             Inventory.Remove(item);
 
-            GroupedInventoryItem groupedInventoryItemToRemove =
-                GroupedInventory.FirstOrDefault(gi => gi.Item == item);
-
-            if(groupedInventoryItemToRemove != null) {
+            GroupedInventoryItem groupedInventoryItemToRemove = item.IsUnique ?
+                GroupedInventory.FirstOrDefault(gi => gi.Item == item) :        // if true
+                GroupedInventory.FirstOrDefault(gi => gi.Item.ItemTypeID == item.ItemTypeID); // if false
+                                                                                              // Conditional operator :? (ternary operator) => condition ? consequent : alternative
+                                                                                              // similar to if/else. It evaluates a Bool expression and returns the result of one of the two expressions (one is for = true, one is for =false)
+                                                                                              // source: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/conditional-operator
+            if (groupedInventoryItemToRemove != null) {
                 if(groupedInventoryItemToRemove.Quantity == 1) {
                     GroupedInventory.Remove(groupedInventoryItemToRemove);
                 }
