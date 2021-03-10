@@ -63,7 +63,7 @@ namespace Engine.Models
         #endregion
 
         public event EventHandler OnKilled;
-                
+
         protected LivingEntity(string name, int maximumHitPoints, int currentHitPoints, int gold, int level = 1) {
             Name = name;
             MaximumHitPoints = maximumHitPoints;
@@ -109,7 +109,7 @@ namespace Engine.Models
 
             Gold -= amountOfGold;
         }
-
+        
         protected LivingEntity() {
             Inventory = new ObservableCollection<GameItem>();
             GroupedInventory = new ObservableCollection<GroupedInventoryItem>();
@@ -135,10 +135,12 @@ namespace Engine.Models
             Inventory.Remove(item);
 
             GroupedInventoryItem groupedInventoryItemToRemove = item.IsUnique ?
-                GroupedInventory.FirstOrDefault(gi => gi.Item == item) :
-                GroupedInventory.FirstOrDefault(gi => gi.Item.ItemTypeID == item.ItemTypeID);
-
-            if(groupedInventoryItemToRemove != null) {
+                GroupedInventory.FirstOrDefault(gi => gi.Item == item) :        // if true
+                GroupedInventory.FirstOrDefault(gi => gi.Item.ItemTypeID == item.ItemTypeID); // if false
+                                                                                              // Conditional operator :? (ternary operator) => condition ? consequent : alternative
+                                                                                              // similar to if/else. It evaluates a Bool expression and returns the result of one of the two expressions (one is for = true, one is for =false)
+                                                                                              // source: https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/operators/conditional-operator
+            if (groupedInventoryItemToRemove != null) {
                 if(groupedInventoryItemToRemove.Quantity == 1) {
                     GroupedInventory.Remove(groupedInventoryItemToRemove);
                 }

@@ -30,14 +30,13 @@ namespace Engine.Models
                 SetLevelAndMaximumHitPoints();                  //  give the player experience
             }
         }
-   
+
         public ObservableCollection<QuestStatus> Quests { get; set; }   // New data type 'OvservableCollection' with new property 'Quests' with getter and setter 
                                                                         // new data type requires refference to Collection.ObjectModel namespace 
                                                                         // we are using this data type as it automatically updates UI when new Quest or completes current
         #endregion
 
         public event EventHandler OnLeveledUp;
-
         public Player(string name, string characterClass, int experiencePoints, int maximumHitPoints, int currentHitPoints, int gold) : base (name, maximumHitPoints, currentHitPoints, gold) {
 
             CharacterClass = characterClass;

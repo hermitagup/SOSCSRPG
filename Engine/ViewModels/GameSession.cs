@@ -232,7 +232,6 @@ namespace Engine.ViewModels
 
                         RaiseMessage($"You receive {quest.RewardGold} gold");
                         CurrentPlayer.ReceiveGold(quest.RewardGold);
-                        
 
                         foreach (ItemQuantity itemQuantity in quest.RewardItems)
                         {

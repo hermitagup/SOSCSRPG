@@ -113,7 +113,6 @@
                            Width="125"
                            Source="{Binding CurrentLocation.ImageName}"/>
 
-
                     <TextBlock Grid.Row="2"
                                HorizontalAlignment="Center"
                                Text="{Binding CurrentLocation.Description}"
