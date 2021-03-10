@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -10,7 +11,6 @@ namespace Engine.Models
 
         private string _characterClass;
         private int _experiencePoints;
-        private int _level;
 
         public string CharacterClass {
             get { return _characterClass; }
@@ -23,24 +23,20 @@ namespace Engine.Models
         public int ExperiencePoints
         {
             get { return _experiencePoints; }
-            set 
+            private set 
             { 
                 _experiencePoints = value;
                 OnPropertyChanged(nameof(ExperiencePoints));  // This is exact property name that will be used in below OnPropertyChanged
+                SetLevelAndMaximumHitPoints();                  //  give the player experience
             }
         }
-        public int Level {
-            get { return _level; }
-            set {
-                _level = value;
-                OnPropertyChanged(nameof(Level));
-            }
-        }
-
+   
         public ObservableCollection<QuestStatus> Quests { get; set; }   // New data type 'OvservableCollection' with new property 'Quests' with getter and setter 
                                                                         // new data type requires refference to Collection.ObjectModel namespace 
                                                                         // we are using this data type as it automatically updates UI when new Quest or completes current
         #endregion
+
+        public event EventHandler OnLeveledUp;
 
         public Player(string name, string characterClass, int experiencePoints, int maximumHitPoints, int currentHitPoints, int gold) : base (name, maximumHitPoints, currentHitPoints, gold) {
 
@@ -61,6 +57,22 @@ namespace Engine.Models
             }
 
             return true;
+        }
+
+        public void AddExperience(int experiencePoints) {
+            ExperiencePoints += experiencePoints;
+        }
+
+        private void SetLevelAndMaximumHitPoints() { // function that saves original level valuer, recalculates the lvel and handles leveling up
+            int originalLevel = Level;
+ 
+            Level = (ExperiencePoints / 100) + 1;
+ 
+            if (Level != originalLevel) {
+                MaximumHitPoints = Level * 10;
+ 
+                OnLeveledUp?.Invoke(this, System.EventArgs.Empty);
+            }
         }
     }
 }
