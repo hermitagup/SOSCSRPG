@@ -8,10 +8,11 @@ namespace Engine.Models
 {
     public class GameItem
     {
-        public int ItemTypeID { get; set; }
-        public string Name { get; set; }
-        public int Price { get; set; }
-        public bool IsUnique { get; set; }
+        // removed set{} in Lesson 10.6 to prevent any changes to them , where only place it should be set is below constructor
+        public int ItemTypeID { get; }
+        public string Name { get; }
+        public int Price { get; }
+        public bool IsUnique { get; }
 
         public GameItem(int itemTypeID, string name, int price, bool isUnique = false) { //consturctor
             ItemTypeID = itemTypeID;

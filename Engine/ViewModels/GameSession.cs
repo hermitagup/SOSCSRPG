@@ -18,8 +18,7 @@ namespace Engine.ViewModels
         private Location _currentLocation;
         private Monster _currentMonster;
         private Trader _currentTrader;
-
-        public World CurrentWorld { get; set; }
+        public World CurrentWorld { get;}
         public Player CurrentPlayer
         {
             get { return _currentPlayer; }
@@ -46,9 +45,8 @@ namespace Engine.ViewModels
             set
             {
                 _currentLocation = value;                         // we reset current location ('value' - explanation https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/value
-                OnPropertyChanged(nameof(CurrentLocation));       // change onproperty string into name of currentlocation property      //we raise OnPropertyChange for a CurrentLocation to redraw an image and update info
+                OnPropertyChanged();                              // change onproperty string into name of currentlocation property      //we raise OnPropertyChange for a CurrentLocation to redraw an image and update info
                 OnPropertyChanged(nameof(HasLocationToNorth));    // we raise OnPropertyChange for boolean value "HasLocationToNorth" to show or hide direction button based on that if there is a location available North of current location
-
                 OnPropertyChanged(nameof(HasLocationToEast));
                 OnPropertyChanged(nameof(HasLocationToWest));
                 OnPropertyChanged(nameof(HasLocationToSouth));       // renaming string "HasLocationToSouth" to name of CurrentLocation property 'nameof(HasLocationToSouth)' to make it instantly updated everytime we update property name, 
@@ -87,8 +85,8 @@ namespace Engine.ViewModels
                     RaiseMessage($"You see a {CurrentMonster.Name} here!");
                 }
 
-                OnPropertyChanged(nameof(CurrentMonster));
-                OnPropertyChanged(nameof(HasMonster));
+                OnPropertyChanged();                        // here we do not need to pass nameof(CurrentMonster) as due to changes in Lesson 10.6 it will know from what property it is invoked
+                OnPropertyChanged(nameof(HasMonster));      // here we need to pass parameter as this is different parameter than property we are invoking from
 
             }
         }
@@ -103,8 +101,8 @@ namespace Engine.ViewModels
             {
                 _currentTrader = value;
 
-                OnPropertyChanged(nameof(CurrentTrader));   // inform UI about change
-                OnPropertyChanged(nameof(HasTrader));      // inform UI about change
+                OnPropertyChanged();   // inform UI about change | here we do not need to pass nameof(CurrentMonster) as due to changes in Lesson 10.6 it will know from what property it is invoked
+                OnPropertyChanged(nameof(HasTrader));      // inform UI about change | here we need to pass parameter as this is different parameter than property we are invoking from
             }
         }
 

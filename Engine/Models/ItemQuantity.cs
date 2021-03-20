@@ -8,8 +8,9 @@ namespace Engine.Models
 {
     public class ItemQuantity
     {
-        public int ItemID { get; set; }
-        public int Quantity { get; set; }
+        // removed set{} in Lesson 10.6 to prevent any changes to them , where only place it should be set is below constructor
+        public int ItemID { get;}
+        public int Quantity { get;}
 
         public ItemQuantity(int itemID, int quantity) {
             ItemID = itemID;

@@ -11,17 +11,11 @@ namespace Engine.Models
     {
         private readonly List<Location> _locations = new List<Location>(); //create private _locations variable, only accessed inside Word class
     
-        internal void AddLocation(int xCoordinate, int yCoordinate, string name, string description, string imageName) //only worldfactory uses this calss. used void, as we don't want any answer back (function doesn't return any value, just do some magic)
+        internal void AddLocation(int xCoordinate, int yCoordinate, string name, 
+            string description, string imageName) //only worldfactory uses this calss. used void, as we don't want any answer back (function doesn't return any value, just do some magic)
         {
-            Location loc = new Location(); //creating new Location class instance under name 'loc' & filling properties with data provided from input from function AddLocation
-            loc.XCoordinate = xCoordinate;
-            loc.YCoordinate = yCoordinate;
-            loc.Name = name;
-            loc.Description = description;
-            loc.ImageName = $"/Engine;component/Images/Locations/{imageName}";
-
-            _locations.Add(loc); //Add just created 'loc' class instance to '_locations' list
-     
+            _locations.Add(new Location(xCoordinate, yCoordinate, name, description, //Constructing the _location object wit all it's properties
+            imageName = $"/Engine;component/Images/Locations/{imageName}"));
         }
 
         public Location LocationAt (int xCoordinate, int yCoordinate) //public, because it will be called from other objects

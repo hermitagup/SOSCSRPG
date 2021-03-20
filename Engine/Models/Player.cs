@@ -16,7 +16,7 @@ namespace Engine.Models
             get { return _characterClass; }
             set {
                 _characterClass = value;
-                OnPropertyChanged(nameof(CharacterClass));
+                OnPropertyChanged(); // we do not need to pass parameter as changes done in Lesson 10.6
             }
         }
 
@@ -26,12 +26,12 @@ namespace Engine.Models
             private set 
             { 
                 _experiencePoints = value;
-                OnPropertyChanged(nameof(ExperiencePoints));  // This is exact property name that will be used in below OnPropertyChanged
+                OnPropertyChanged(); // we do not need to pass parameter as changes done in Lesson 10.6
                 SetLevelAndMaximumHitPoints();
             }
         }
 
-        public ObservableCollection<QuestStatus> Quests { get; set; }   // New data type 'OvservableCollection' with new property 'Quests' with getter and setter 
+        public ObservableCollection<QuestStatus> Quests { get;}   // New data type 'OvservableCollection' with new property 'Quests' with getter and setter 
                                                                         // new data type requires refference to Collection.ObjectModel namespace 
                                                                         // we are using this data type as it automatically updates UI when new Quest or completes current
         #endregion
