@@ -16,7 +16,7 @@ namespace Engine.Models
             get { return _characterClass; }
             set {
                 _characterClass = value;
-                OnPropertyChanged(); // we do not need to pass parameter as changes done in Lesson 10.6
+                OnPropertyChanged(); // we do not need to pass parameter as changes done in Lesson 10.6 | was OnPropertyChanged(nameof(CharacterClass));
             }
         }
 
@@ -26,14 +26,15 @@ namespace Engine.Models
             private set 
             { 
                 _experiencePoints = value;
-                OnPropertyChanged(); // we do not need to pass parameter as changes done in Lesson 10.6
-                SetLevelAndMaximumHitPoints();
+                OnPropertyChanged();                // This is exact property name that will be used in below OnPropertyChanged,
+                                                    // which is ExperiencedPoints taken automatically (as no parameter given) - check Lesson 10.6, BaseNotofication.cs
+                SetLevelAndMaximumHitPoints();      // give the player experience
             }
         }
 
         public ObservableCollection<QuestStatus> Quests { get;}   // New data type 'OvservableCollection' with new property 'Quests' with getter and setter 
-                                                                        // new data type requires refference to Collection.ObjectModel namespace 
-                                                                        // we are using this data type as it automatically updates UI when new Quest or completes current
+                                                                  // new data type requires refference to Collection.ObjectModel namespace 
+                                                                  // we are using this data type as it automatically updates UI when new Quest or completes current
         #endregion
 
         public event EventHandler OnLeveledUp;
@@ -58,21 +59,20 @@ namespace Engine.Models
             return true;
         }
 
-        public void AddExperience(int experiencePoints){
+        public void AddExperience(int experiencePoints) {
             ExperiencePoints += experiencePoints;
         }
 
-        private void SetLevelAndMaximumHitPoints() {
+        private void SetLevelAndMaximumHitPoints() { // function that saves original level valuer, recalculates the lvel and handles leveling up
             int originalLevel = Level;
+ 
             Level = (ExperiencePoints / 100) + 1;
-            if (Level != originalLevel)
-            {
+ 
+            if (Level != originalLevel) {
                 MaximumHitPoints = Level * 10;
+ 
                 OnLeveledUp?.Invoke(this, System.EventArgs.Empty);
             }
         }
-
-
-
     }
 }

@@ -26,7 +26,7 @@ namespace Engine.ViewModels
             {
                 if (_currentPlayer != null)
                 {
-
+                    _currentPlayer.OnLeveledUp -= OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled -= OnCurrentPlayerKilled;   // if there is current player object we want to unsubscribe to an Event handler
                 }
 
@@ -34,6 +34,7 @@ namespace Engine.ViewModels
 
                 if (_currentPlayer != null) // to ensure that new current player is not null (possible to pass null within value)
                 {
+                    _currentPlayer.OnLeveledUp += OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled += OnCurrentPlayerKilled;   // subscribe to it and run OnCurrentPlayerKilled Event handler
                 }
             }
@@ -101,8 +102,8 @@ namespace Engine.ViewModels
             {
                 _currentTrader = value;
 
-                OnPropertyChanged();   // inform UI about change | here we do not need to pass nameof(CurrentMonster) as due to changes in Lesson 10.6 it will know from what property it is invoked
-                OnPropertyChanged(nameof(HasTrader));      // inform UI about change | here we need to pass parameter as this is different parameter than property we are invoking from
+                OnPropertyChanged();                        // inform UI about change | here we do not need to pass nameof(CurrentTrader) as due to changes in Lesson 10.6 it will know from what property it is invoked
+                OnPropertyChanged(nameof(HasTrader));       // inform UI about change | here we need to pass parameter as this is different parameter than property we are invoking from
             }
         }
 
@@ -373,9 +374,8 @@ namespace Engine.ViewModels
         private void OnCurrentPlayerLeveledUp(object sender, System.EventArgs eventArgs) {
             RaiseMessage($"You are now level {CurrentPlayer.Level}!");
         }
-        private void RaiseMessage(string message)
-        {
 
+        private void RaiseMessage(string message) {
             OnMessageRaised?.Invoke(this, new GameMessageEventArgs(message));
         }
     }

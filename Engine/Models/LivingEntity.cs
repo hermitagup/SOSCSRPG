@@ -45,11 +45,9 @@ namespace Engine.Models
             }
         }
 
-        public int Level
-        {
+        public int Level {
             get { return _level; }
-            protected set
-            {
+            protected set { //because it is protected it can be set inside LivingEntity class
                 _level = value;
                 OnPropertyChanged();
             }
