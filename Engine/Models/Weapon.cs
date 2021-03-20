@@ -8,8 +8,8 @@ namespace Engine.Models
 {
     public class Weapon : GameItem  // The Weapon class is a sub class of GameItem class
     {
-        public int MinimumDamage { get; set; }
-        public int MaximumDamage { get; set; }
+        public int MinimumDamage { get; }
+        public int MaximumDamage { get; }
         public Weapon(int itemTypeID, string name, int price, int minDamage, int maxDamage)  // Construct new object that take parameters 'itemTypeID', 'name', 'price' from base class which is a 'GameItem' and add two more 'MinimumDamage', 'MaximumDamage'
             : base(itemTypeID, name, price, true){
             MinimumDamage = minDamage;
