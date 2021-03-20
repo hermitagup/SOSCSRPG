@@ -235,7 +235,7 @@ namespace Engine.ViewModels
                         {
                             GameItem rewardItem = ItemFactory.CreateGameItem(itemQuantity.ItemID);
 
-                            RaiseMessage($"You receive a{rewardItem.Name}");
+                            RaiseMessage($"You receive a {rewardItem.Name}");
                             CurrentPlayer.AddItemToInventory(rewardItem);
                         }
 
