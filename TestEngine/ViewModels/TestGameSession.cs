@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Engine.ViewModels;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using Engine.ViewModels; // to access the GameSession class in the Engine.ViewModels namespace
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,8 +14,10 @@ namespace TestEngine.ViewModels {
 
             GameSession gameSession = new GameSession();
 
-            Assert.IsNotNull(gameSession.CurrentPlayer);
-            Assert.AreEqual("Town square", gameSession.CurrentLocation.Name);
+            // Assertion znaczenie=twierdzenie (w tym przypadku test)
+            // Assert means - we expect this condition to be true - check if it is true
+            Assert.IsNotNull(gameSession.CurrentPlayer);                                    // check if default player object (after instantiating) is not Null
+            Assert.AreEqual("Town square", gameSession.CurrentLocation.Name);               // assert if two values are equal
         }
 
         [TestMethod]
