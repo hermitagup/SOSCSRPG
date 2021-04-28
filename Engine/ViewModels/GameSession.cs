@@ -107,7 +107,7 @@ namespace Engine.ViewModels
             }
         }
 
-        public Weapon CurrentWeapon { get; set; }   // property of data type Weapon to know what's the current selected weapon is for a player
+        public GameItem CurrentWeapon { get; set; }   // property of data type Weapon to know what's the current selected weapon is for a player
 
         // Before refactoring this bit of a code (example)
         // public bool HasLocationToNorth { 

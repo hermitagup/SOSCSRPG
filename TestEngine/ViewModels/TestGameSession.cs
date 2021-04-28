@@ -1,6 +1,4 @@
-﻿using Engine.ViewModels;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using Engine.ViewModels; // to access the GameSession class in the Engine.ViewModels namespace
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -9,7 +7,7 @@ namespace TestEngine.ViewModels {
     [TestClass] // unit testcalss
     public class TestGameSession {
 
-        [TestMethod] // this function is a unit test function
+        [TestMethod] // this function is a unit test
         public void TestCreateGameSession() {
 
             GameSession gameSession = new GameSession();
