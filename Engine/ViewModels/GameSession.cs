@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using Engine.Models;
 using Engine.EventArgs;
 using Engine.Factories;
+using Engine.Models;
 
 
 namespace Engine.ViewModels
@@ -19,21 +18,19 @@ namespace Engine.ViewModels
         private Monster _currentMonster;
         private Trader _currentTrader;
         public World CurrentWorld { get;}
-        public Player CurrentPlayer
-        {
+        public Player CurrentPlayer{
             get { return _currentPlayer; }
-            set
-            {
-                if (_currentPlayer != null)
-                {
+            set{
+                if (_currentPlayer != null){
+                    _currentPlayer.OnActionPerformed -= OnCurrentPlayerPerformedAction;
                     _currentPlayer.OnLeveledUp -= OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled -= OnCurrentPlayerKilled;   // if there is current player object we want to unsubscribe to an Event handler
                 }
 
                 _currentPlayer = value;
 
-                if (_currentPlayer != null) // to ensure that new current player is not null (possible to pass null within value)
-                {
+                if (_currentPlayer != null){ // to ensure that new current player is not null (possible to pass null within value)
+                    _currentPlayer.OnActionPerformed -= OnCurrentPlayerPerformedAction;
                     _currentPlayer.OnLeveledUp += OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled += OnCurrentPlayerKilled;   // subscribe to it and run OnCurrentPlayerKilled Event handler
                 }
@@ -66,19 +63,16 @@ namespace Engine.ViewModels
         {
 
             get { return _currentMonster; }
-            set
-            {
+            set{
 
-                if (_currentMonster != null)
-                {
+                if (_currentMonster != null){
 
                     _currentMonster.OnKilled -= OnCurrentMonsterKilled;
                 }
 
                 _currentMonster = value;
 
-                if (_currentMonster != null)
-                {
+                if (_currentMonster != null){
 
                     _currentMonster.OnKilled += OnCurrentMonsterKilled;
 
@@ -92,22 +86,18 @@ namespace Engine.ViewModels
             }
         }
 
-        public Trader CurrentTrader
-        {
+        public Trader CurrentTrader{
 
             get { return _currentTrader; }
 
 
-            set
-            {
+            set{
                 _currentTrader = value;
 
                 OnPropertyChanged();                        // inform UI about change | here we do not need to pass nameof(CurrentTrader) as due to changes in Lesson 10.6 it will know from what property it is invoked
                 OnPropertyChanged(nameof(HasTrader));       // inform UI about change | here we need to pass parameter as this is different parameter than property we are invoking from
             }
         }
-
-        public GameItem CurrentWeapon { get; set; }   // property of data type Weapon to know what's the current selected weapon is for a player
 
         // Before refactoring this bit of a code (example)
         // public bool HasLocationToNorth { 
@@ -291,69 +281,45 @@ namespace Engine.ViewModels
             CurrentMonster = CurrentLocation.GetMonster();
         }
 
-        public void AttackCurrentMonster()
-        {
-            if (CurrentWeapon == null)              // Guard clause! - we will not run all stuff below if player doesn't have weapon equiped!
+        public void AttackCurrentMonster(){
+            if (CurrentPlayer.CurrentWeapon == null){              // Guard clause! - we will not run all stuff below if player doesn't have weapon equiped!
 
-            {
                 RaiseMessage("Mighty Hero! You must select a weapon, to attack.");
                 return;
             }
+            CurrentPlayer.UseCurrentWeaponOn(CurrentMonster);
 
-            // Determine damage to monster
-            int damageToMonster = RandomNumberGenerator.NumberBetween(CurrentWeapon.MinimumDamage, CurrentWeapon.MaximumDamage);
-
-            if (damageToMonster == 0)
-            {
-                RaiseMessage($"You missed the {CurrentMonster.Name}.");
-            }
-            else
-            {
-
-                RaiseMessage($"You hit the {CurrentMonster.Name} for {damageToMonster} points.");
-                CurrentMonster.TakeDamage(damageToMonster);
-            }
-
-            // If monster is killed, collect rewards and loot												 
-            if (CurrentMonster.IsDead)
-            {
-
+            if (CurrentMonster.IsDead){
                 // Get another monster to fight
                 GetMonsterAtLocation();
             }
-            else
-            {
-
-                // If monster is still alive, let the monster attack
+            else{
+                // Let the monster attack
                 int damageToPlayer = RandomNumberGenerator.NumberBetween(CurrentMonster.MinimumDamage, CurrentMonster.MaximumDamage);
 
-                if (damageToPlayer == 0)
-                {
-
+                if (damageToPlayer == 0){
                     RaiseMessage($"The {CurrentMonster.Name} attacks, but misses you.");
                 }
-                else
-                {
-
+                else{
                     RaiseMessage($"The {CurrentMonster.Name} hit you for {damageToPlayer} points.");
                     CurrentPlayer.TakeDamage(damageToPlayer);
                 }
             }
         }
 
-        private void OnCurrentPlayerKilled(object sender, System.EventArgs eventArgs)
-        {
+        private void OnCurrentPlayerPerformedAction(object sender, string result){
+            RaiseMessage(result);
+        }
 
+        private void OnCurrentPlayerKilled(object sender, System.EventArgs eventArgs){
             RaiseMessage("");
-            RaiseMessage("You have been killed");
+            RaiseMessage("You have been killed.");
 
             CurrentLocation = CurrentWorld.LocationAt(0, -1);
             CurrentPlayer.CompletelyHeal();
         }
 
-        private void OnCurrentMonsterKilled(object sender, System.EventArgs eventArgs)
-        {
-
+        private void OnCurrentMonsterKilled(object sender, System.EventArgs eventArgs){
             RaiseMessage("");
             RaiseMessage($"You defeated the {CurrentMonster.Name}!");
 
@@ -363,19 +329,17 @@ namespace Engine.ViewModels
             RaiseMessage($"You receive {CurrentMonster.Gold} gold.");
             CurrentPlayer.ReceiveGold(CurrentMonster.Gold);
 
-            foreach (GameItem gameItem in CurrentMonster.Inventory)
-            {
-
+            foreach (GameItem gameItem in CurrentMonster.Inventory){
                 RaiseMessage($"You receive one {gameItem.Name}.");
                 CurrentPlayer.AddItemToInventory(gameItem);
             }
         }
 
-        private void OnCurrentPlayerLeveledUp(object sender, System.EventArgs eventArgs) {
+        private void OnCurrentPlayerLeveledUp(object sender, System.EventArgs eventArgs){
             RaiseMessage($"You are now level {CurrentPlayer.Level}!");
         }
 
-        private void RaiseMessage(string message) {
+        private void RaiseMessage(string message){
             OnMessageRaised?.Invoke(this, new GameMessageEventArgs(message));
         }
     }

@@ -228,10 +228,10 @@
                     <ColumnDefinition Width="50"/>
                 </Grid.ColumnDefinitions>
                 <ComboBox Grid.Row="0" Grid.Column="0"
-                          ItemsSource="{Binding CurrentPlayer.Weapons}"
-                          SelectedItem="{Binding CurrentWeapon}"
-                          DisplayMemberPath="Name"
-                          SelectedValuePath="ID"/>
+                    ItemsSource="{Binding CurrentPlayer.Weapons}"
+                    SelectedItem="{Binding CurrentPlayer.CurrentWeapon}"
+                    DisplayMemberPath="Name"
+                    SelectedValuePath="ID"/>
                 <Button Grid.Row="0" Grid.Column="2"
                         Content="Use"
                         Click="OnClick_AttackMonster"/>
