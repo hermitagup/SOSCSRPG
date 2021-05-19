@@ -5,8 +5,9 @@ using System.Linq;
 
 namespace Engine.Models
 {
-    public abstract class LivingEntity : BaseNotificationClass {
+    public abstract class LivingEntity : BaseNotificationClass{
         #region Properties
+
         private string _name;
         private int _currentHitPoints;
         private int _maximumHitPoints;
@@ -14,41 +15,41 @@ namespace Engine.Models
         private int _level;
         private GameItem _currentWeapon;
 
-        public string Name {
+        public string Name{
             get { return _name; }
-            private set {
+            private set{
                 _name = value;
                 OnPropertyChanged();
             }
         }
 
-        public int CurrentHitPoints {
+        public int CurrentHitPoints{
             get { return _currentHitPoints; }
-            private set {
+            private set{
                 _currentHitPoints = value;
                 OnPropertyChanged();
             }
         }
 
-        public int MaximumHitPoints {
+        public int MaximumHitPoints{
             get { return _maximumHitPoints; }
-            protected set {
+            protected set{
                 _maximumHitPoints = value;
                 OnPropertyChanged();
             }
         }
 
-        public int Gold {
+        public int Gold{
             get { return _gold; }
-            private set {
+            private set{
                 _gold = value;
                 OnPropertyChanged();
             }
         }
 
-        public int Level {
+        public int Level{
             get { return _level; }
-            protected set { //because it is protected it can be set inside LivingEntity class
+            protected set{
                 _level = value;
                 OnPropertyChanged();
             }
@@ -76,14 +77,17 @@ namespace Engine.Models
         public ObservableCollection<GroupedInventoryItem> GroupedInventory { get; }
 
         public List<GameItem> Weapons =>
-            Inventory.Where(i => i.Category == GameItem.ItemCategory.Weapon).ToList(); //look for inventory item - weapon
+            Inventory.Where(i => i.Category == GameItem.ItemCategory.Weapon).ToList();
+
         public bool IsDead => CurrentHitPoints <= 0;
+
         #endregion
 
         public event EventHandler<string> OnActionPerformed; // UI will watch this event for any messages that are raised when the LivingEntity performs an action
         public event EventHandler OnKilled;
 
-        protected LivingEntity(string name, int maximumHitPoints, int currentHitPoints, int gold, int level = 1) {
+        protected LivingEntity(string name, int maximumHitPoints, int currentHitPoints,
+                               int gold, int level = 1){
             Name = name;
             MaximumHitPoints = maximumHitPoints;
             CurrentHitPoints = currentHitPoints;
@@ -97,59 +101,54 @@ namespace Engine.Models
             CurrentWeapon.PerformAction(this, target);
         }
 
-        public void TakeDamage(int hitPointsOfDamage) {
+        public void UseCurrentWeaponOn(LivingEntity target){
+            CurrentWeapon.PerformAction(this, target);
+        }
+
+        public void TakeDamage(int hitPointsOfDamage){
             CurrentHitPoints -= hitPointsOfDamage;
 
-            if (IsDead)
-            {
+            if (IsDead){
                 CurrentHitPoints = 0;
                 RaiseOnKilledEvent();
             }
         }
 
-        public void Heal(int hitPointsToHeal) {
+        public void Heal(int hitPointsToHeal){
             CurrentHitPoints += hitPointsToHeal;
 
-            if (CurrentHitPoints > MaximumHitPoints)
-            {
+            if (CurrentHitPoints > MaximumHitPoints){
                 CurrentHitPoints = MaximumHitPoints;
             }
         }
 
-        public void CompletelyHeal() {
+        public void CompletelyHeal(){
             CurrentHitPoints = MaximumHitPoints;
         }
 
-        public void ReceiveGold(int amountOfGold) {
+        public void ReceiveGold(int amountOfGold){
             Gold += amountOfGold;
         }
 
-        public void SpendGold(int amountOfGold) {
-            if (amountOfGold > Gold) {
+        public void SpendGold(int amountOfGold){
+            if (amountOfGold > Gold){
                 throw new ArgumentOutOfRangeException($"{Name} only has {Gold} gold, and cannot spend {amountOfGold} gold");
             }
-
             Gold -= amountOfGold;
         }
-        
-        protected LivingEntity() {
-            Inventory = new ObservableCollection<GameItem>();
-            GroupedInventory = new ObservableCollection<GroupedInventoryItem>();
-        }
 
-        public void AddItemToInventory(GameItem item) {
+        public void AddItemToInventory(GameItem item){
             Inventory.Add(item);
 
-            if (item.IsUnique) {
+            if (item.IsUnique){
                 GroupedInventory.Add(new GroupedInventoryItem(item, 1));
             }
-            else {
-                if(!GroupedInventory.Any(gi => gi.Item.ItemTypeID == item.ItemTypeID)) {
+            else{
+                if (!GroupedInventory.Any(gi => gi.Item.ItemTypeID == item.ItemTypeID)){
                     GroupedInventory.Add(new GroupedInventoryItem(item, 0));
                 }
                 GroupedInventory.First(gi => gi.Item.ItemTypeID == item.ItemTypeID).Quantity++;
             }
-
             OnPropertyChanged(nameof(Weapons));
         }
 
@@ -174,13 +173,16 @@ namespace Engine.Models
             OnPropertyChanged(nameof(Weapons));
         }
         #region Private functions
-        private void RaiseOnKilledEvent() {
+        private void RaiseOnKilledEvent(){
             OnKilled?.Invoke(this, new System.EventArgs());
         }
         private void RaiseActionPerformedEvent(object sender, string result) { //pass the weapon’s message up to the UI – which is only watching for events on the LivingEntity
             OnActionPerformed?.Invoke(this, result);
         }
 
+        private void RaiseActionPerformedEvent(object sender, string result){
+            OnActionPerformed?.Invoke(this, result);
+        }
         #endregion
     }
 }

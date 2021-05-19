@@ -1,10 +1,7 @@
-using System;
+using Engine.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Engine.Actions;
-using Engine.Models;
 
 namespace Engine.Factories
 {
@@ -12,8 +9,7 @@ namespace Engine.Factories
     {                                                           // static class never have constructor as it is never create an instance (not being constructed)
         private static readonly List<GameItem> _standardGameItems = new List<GameItem>();   // readonly - can be set only in this line or inside a constructor
 
-        static ItemFactory()
-        {
+        static ItemFactory() {
             BuildWeapon(1001, "Pointy Stick", 1, 1, 2);
             BuildWeapon(1002, "Rusty Sword", 5, 1, 3);
 

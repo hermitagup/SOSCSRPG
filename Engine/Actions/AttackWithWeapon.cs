@@ -8,9 +8,9 @@ namespace Engine.Actions
         private readonly int _maximumDamage;
         private readonly int _minimumDamage;
 
-        public event EventHandler<string> OnActionPerformed;
+        public event EventHandler<string> OnActionPerformed;    // public event that will notify UI of any messages that result from executing this command object
 
-        public AttackWithWeapon(GameItem weapon, int minimumDamage, int maximumDamage) {
+        public AttackWithWeapon(GameItem weapon, int minimumDamage, int maximumDamage){  // constructor with parameter validation and to private variables pass
             if (weapon.Category != GameItem.ItemCategory.Weapon) {
                 throw new ArgumentException($"{weapon.Name} is not a weapon");
             }
@@ -28,7 +28,7 @@ namespace Engine.Actions
             _maximumDamage = maximumDamage;
         }
 
-        public void Execute(LivingEntity actor, LivingEntity target) {
+        public void Execute(LivingEntity actor, LivingEntity target) {   // command that accepts two parameters 1) actor (who is performing the action) 2) target (who is having the action done to them)
             int damage = RandomNumberGenerator.NumberBetween(_minimumDamage, _maximumDamage);
 
             if (damage == 0) {
@@ -40,6 +40,7 @@ namespace Engine.Actions
             }
         }
 
+        // Function that raises the event notification - if anything subscribed to the OnActionPerformed event
         private void ReportResult(string result) {
             OnActionPerformed?.Invoke(this, result);
         }

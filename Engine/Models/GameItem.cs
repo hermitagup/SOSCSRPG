@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Engine.Actions;
+﻿using Engine.Actions;
 
 namespace Engine.Models
 {
@@ -13,7 +8,7 @@ namespace Engine.Models
             Weapon
         }
         // removed set{} in Lesson 10.6 to prevent any changes to them , where only place it should be set is below constructor
-        public ItemCategory Category {get;}
+        public ItemCategory Category { get; }
         public int ItemTypeID { get; }
         public string Name { get; }
         public int Price { get; }
@@ -35,7 +30,7 @@ namespace Engine.Models
 
         public GameItem Clone() {
             return new GameItem(Category, ItemTypeID, Name, Price, 
-                IsUnique, Action); //?
+                IsUnique, Action);
         }
     }
 }
