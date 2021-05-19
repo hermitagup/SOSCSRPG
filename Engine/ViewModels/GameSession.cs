@@ -26,6 +26,7 @@ namespace Engine.ViewModels
             {
                 if (_currentPlayer != null)
                 {
+                    _currentPlayer.OnActionPerformed -= OnCurrentPlayerPerformedAction; //
                     _currentPlayer.OnLeveledUp -= OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled -= OnCurrentPlayerKilled;   // if there is current player object we want to unsubscribe to an Event handler
                 }
@@ -34,6 +35,7 @@ namespace Engine.ViewModels
 
                 if (_currentPlayer != null) // to ensure that new current player is not null (possible to pass null within value)
                 {
+                    _currentPlayer.OnActionPerformed += OnCurrentPlayerPerformedAction;
                     _currentPlayer.OnLeveledUp += OnCurrentPlayerLeveledUp;
                     _currentPlayer.OnKilled += OnCurrentPlayerKilled;   // subscribe to it and run OnCurrentPlayerKilled Event handler
                 }
@@ -106,17 +108,9 @@ namespace Engine.ViewModels
                 OnPropertyChanged(nameof(HasTrader));       // inform UI about change | here we need to pass parameter as this is different parameter than property we are invoking from
             }
         }
-
-        public GameItem CurrentWeapon { get; set; }   // property of data type Weapon to know what's the current selected weapon is for a player
-
-        // Before refactoring this bit of a code (example)
-        // public bool HasLocationToNorth { 
-        //     get {
-        //         return CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null; // look in the currentworld try currentlocation at x coordinate and y coordinate +1 if it is not equal null 
-        //     } 
-        // }
-        //
-        // After refactoring this bit of a code (example)
+        /// <summary>
+        /// CurrentWeapon property from line 101
+        /// </summary>
         public bool HasLocationToNorth =>
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null;
 
@@ -293,26 +287,14 @@ namespace Engine.ViewModels
 
         public void AttackCurrentMonster()
         {
-            if (CurrentWeapon == null)              // Guard clause! - we will not run all stuff below if player doesn't have weapon equiped!
+            if (CurrentPlayer.CurrentWeapon == null)              // Guard clause! - we will not run all stuff below if player doesn't have weapon equiped!
 
             {
                 RaiseMessage("Mighty Hero! You must select a weapon, to attack.");
                 return;
             }
 
-            // Determine damage to monster
-            int damageToMonster = RandomNumberGenerator.NumberBetween(CurrentWeapon.MinimumDamage, CurrentWeapon.MaximumDamage);
-
-            if (damageToMonster == 0)
-            {
-                RaiseMessage($"You missed the {CurrentMonster.Name}.");
-            }
-            else
-            {
-
-                RaiseMessage($"You hit the {CurrentMonster.Name} for {damageToMonster} points.");
-                CurrentMonster.TakeDamage(damageToMonster);
-            }
+            CurrentPlayer.UseCurrentWeaponOn(CurrentMonster);
 
             // If monster is killed, collect rewards and loot												 
             if (CurrentMonster.IsDead)
@@ -339,6 +321,9 @@ namespace Engine.ViewModels
                     CurrentPlayer.TakeDamage(damageToPlayer);
                 }
             }
+        }
+        private void OnCurrentPlayerPerformedAction(object sender, string result) {
+            RaiseMessage(result);
         }
 
         private void OnCurrentPlayerKilled(object sender, System.EventArgs eventArgs)

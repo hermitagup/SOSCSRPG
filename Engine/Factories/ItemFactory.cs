@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Engine.Actions;
 using Engine.Models;
 
 namespace Engine.Factories
@@ -24,21 +25,19 @@ namespace Engine.Factories
             BuildMiscellaneousItem(9006, "Spider silk", 2);       // worth 2 gold piece
         }
 
-        public static GameItem CreateGameItem(int itemTypeID)
-        {
+        public static GameItem CreateGameItem(int itemTypeID) {
             return _standardGameItems.FirstOrDefault(item => item.ItemTypeID == itemTypeID)?.Clone();
         }
 
-        private static void BuildMiscellaneousItem(int id, string name, int price)
-        {
+        private static void BuildMiscellaneousItem(int id, string name, int price) {
             _standardGameItems.Add(new GameItem(GameItem.ItemCategory.Miscellaneous, id, name, price));
         }
 
         private static void BuildWeapon(int id, string name, int price,
-                                        int minimumDamage, int maximumDamage)
-        {
-            _standardGameItems.Add(new GameItem(GameItem.ItemCategory.Weapon, id, name, price,
-                                                true, minimumDamage, maximumDamage));
+                                        int minimumDamage, int maximumDamage) {
+            GameItem weapon = new GameItem(GameItem.ItemCategory.Weapon, id, name, price, true);
+            weapon.Action = new AttackWithWeapon(weapon, minimumDamage, maximumDamage);
+            _standardGameItems.Add(weapon);
         }
     }
 }
