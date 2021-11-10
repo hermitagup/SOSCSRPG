@@ -123,29 +123,13 @@ namespace Engine.ViewModels
 
         public bool HasTrader => CurrentTrader != null;     // to use for the UI to decide whether or not to display the “Trade” button – based on whether or not there is a CurrentTrader
         public GameSession()    // GameSession constructor - part of a code run when object is being created.
-
-
-
         {
             CurrentPlayer = new Player("Scott", "Fighter", 0, 10, 10, 1000000);
 
             if (!CurrentPlayer.Weapons.Any())
             {                         // if current player doesn't have any weapon (Weapons list == empty) it will equip item ID 1001 = Pointy stick
-
-
-
-
-
-
-
-
-
-
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(1001));
             }
-
-
-
 
             CurrentWorld = WorldFactory.CreateWorld();  // As we use this instance class to CreateWorld only we are changing it from instance to static (Global) class = do something and give me result in and out!
                                                         // using static class to create object is called Factory Design Pattern) - To Remember: if class is static all of it's functions and private variables need to be static too!
@@ -189,7 +173,6 @@ namespace Engine.ViewModels
                 CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate);
             }
         }
-
         private void CompleteQuestsAtLocation()
         {
             foreach (Quest quest in CurrentLocation.QuestsAvailableHere)                                // for each quest available in curent location...
@@ -236,11 +219,6 @@ namespace Engine.ViewModels
             }
         }
 
-
-
-
-
-
         private void GivePlayerQuestsAtLocation()
         {
 
@@ -280,7 +258,6 @@ namespace Engine.ViewModels
 
             CurrentMonster = CurrentLocation.GetMonster();
         }
-
         public void AttackCurrentMonster(){
             if (CurrentPlayer.CurrentWeapon == null) {              // Guard clause! - we will not run all stuff below if player doesn't have weapon equiped!
 
@@ -292,34 +269,9 @@ namespace Engine.ViewModels
 
             // If monster is killed, collect rewards and loot												 
             if (CurrentMonster.IsDead) {
-
-            }
-            else
-            {
-
-                RaiseMessage($"You hit the {CurrentMonster.Name} for {damageToMonster} points.");
-                CurrentMonster.TakeDamage(damageToMonster);
-            }
-
-            // If monster is killed, collect rewards and loot												 
-            if (CurrentMonster.IsDead)
-            {
-
-            }
-            else
-            {
-
-                RaiseMessage($"You hit the {CurrentMonster.Name} for {damageToMonster} points.");
-                CurrentMonster.TakeDamage(damageToMonster);
-            }
-
-            // If monster is killed, collect rewards and loot												 
-            if (CurrentMonster.IsDead)
-            {
-
-                // Get another monster to fight
                 GetMonsterAtLocation();
             }
+
             else{
                 // Let the monster attack
                 int damageToPlayer = RandomNumberGenerator.NumberBetween(CurrentMonster.MinimumDamage, CurrentMonster.MaximumDamage);
@@ -337,10 +289,6 @@ namespace Engine.ViewModels
             RaiseMessage(result);
         }
 
-        private void OnCurrentPlayerPerformedAction(object sender, string result){
-            RaiseMessage(result);
-        }
-
         private void OnCurrentPlayerKilled(object sender, System.EventArgs eventArgs){
             RaiseMessage("");
             RaiseMessage("You have been killed.");
@@ -348,7 +296,6 @@ namespace Engine.ViewModels
             CurrentLocation = CurrentWorld.LocationAt(0, -1);
             CurrentPlayer.CompletelyHeal();
         }
-
         private void OnCurrentMonsterKilled(object sender, System.EventArgs eventArgs){
             RaiseMessage("");
             RaiseMessage($"You defeated the {CurrentMonster.Name}!");

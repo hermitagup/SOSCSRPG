@@ -64,10 +64,6 @@ namespace Engine.Models
 
                 _currentWeapon = value;
 
-                if (_currentWeapon != null) {
-                    _currentWeapon.Action.OnActionPerformed += RaiseActionPerformedEvent;
-                }
-
                 OnPropertyChanged();
             }
         }
@@ -98,10 +94,6 @@ namespace Engine.Models
             GroupedInventory = new ObservableCollection<GroupedInventoryItem>();
         }
         public void UseCurrentWeaponOn(LivingEntity target) { //wrapper function that the ViewModel will use to initiate an attack
-            CurrentWeapon.PerformAction(this, target);
-        }
-
-        public void UseCurrentWeaponOn(LivingEntity target){
             CurrentWeapon.PerformAction(this, target);
         }
 
@@ -178,11 +170,7 @@ namespace Engine.Models
         }
         private void RaiseActionPerformedEvent(object sender, string result) { //pass the weapon’s message up to the UI – which is only watching for events on the LivingEntity
             OnActionPerformed?.Invoke(this, result);
-        }
-
-        private void RaiseActionPerformedEvent(object sender, string result){
-            OnActionPerformed?.Invoke(this, result);
-        }
+               }
         #endregion
     }
 }
