@@ -6,7 +6,7 @@ using Engine.Models;
 
 
 namespace Engine.ViewModels
-{
+{ 
     public class GameSession : BaseNotificationClass
     {
         public event EventHandler<GameMessageEventArgs> OnMessageRaised;  //This is handler that works like "In a view model when you raise this event, you should run this function from a view object."
