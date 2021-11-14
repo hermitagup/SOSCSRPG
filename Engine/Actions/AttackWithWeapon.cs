@@ -3,7 +3,8 @@ using Engine.Models;
 
 namespace Engine.Actions
 {
-    public class AttackWithWeapon {
+    public class AttackWithWeapon : IAction {   // Interface implementation of IAction interface | this allows to treay "AttackWithWeapon" obj as AttackWithWeapon obj or as IAction object
+                                                // when treat as IAction obj  - the only thing available are the one listed within interface IAction file.
         private readonly GameItem _weapon;
         private readonly int _maximumDamage;
         private readonly int _minimumDamage;
