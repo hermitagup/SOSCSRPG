@@ -13,6 +13,10 @@ namespace Engine.Factories
             BuildWeapon(1001, "Pointy Stick", 1, 1, 2);
             BuildWeapon(1002, "Rusty Sword", 5, 1, 3);
 
+            BuildWeapon(1501, "Snake fangs", 0, 0, 2);      //Thats different Snake fangs than BuildMiscellaneousItem one. This is a monster weapon with prize -eq 0 as it will not be able ever to buy, loot  or sell
+            BuildWeapon(1502, "Rat claws", 0, 0, 2);
+            BuildWeapon(1503, "Spider fangs", 0, 0, 4);
+
             BuildMiscellaneousItem(9001, "Snake fang", 1);        // worth 1 gold piece
             BuildMiscellaneousItem(9002, "Snakeskin", 2);         // worth 2 gold piece
             BuildMiscellaneousItem(9003, "Rat tail", 1);          // worth 1 gold piece  

@@ -66,14 +66,14 @@ namespace Engine.ViewModels
             set{
 
                 if (_currentMonster != null){
-
+                    _currentMonster.OnActionPerformed -= OnCurrentMonsterPerformedAction;
                     _currentMonster.OnKilled -= OnCurrentMonsterKilled;
                 }
 
                 _currentMonster = value;
 
                 if (_currentMonster != null){
-
+                    _currentMonster.OnActionPerformed += OnCurrentMonsterPerformedAction;
                     _currentMonster.OnKilled += OnCurrentMonsterKilled;
 
                     RaiseMessage("");
@@ -85,7 +85,6 @@ namespace Engine.ViewModels
 
             }
         }
-
         public Trader CurrentTrader{
 
             get { return _currentTrader; }
@@ -149,7 +148,6 @@ namespace Engine.ViewModels
                 CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1);
             }
         }
-
         public void MoveEast()
         {
             if (HasLocationToEast)
@@ -157,7 +155,6 @@ namespace Engine.ViewModels
                 CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate);
             }
         }
-
         public void MoveSouth()
         {
             if (HasLocationToSouth)
@@ -165,7 +162,6 @@ namespace Engine.ViewModels
                 CurrentLocation = CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1);
             }
         }
-
         public void MoveWest()
         {
             if (HasLocationToWest)
@@ -218,7 +214,6 @@ namespace Engine.ViewModels
                 }
             }
         }
-
         private void GivePlayerQuestsAtLocation()
         {
 
@@ -252,10 +247,8 @@ namespace Engine.ViewModels
                 }
             }
         }
-
         private void GetMonsterAtLocation()
         {
-
             CurrentMonster = CurrentLocation.GetMonster();
         }
         public void AttackCurrentMonster(){
@@ -264,31 +257,23 @@ namespace Engine.ViewModels
                 RaiseMessage("Mighty Hero! You must select a weapon, to attack.");
                 return;
             }
-
             CurrentPlayer.UseCurrentWeaponOn(CurrentMonster);
 
             // If monster is killed, collect rewards and loot												 
             if (CurrentMonster.IsDead) {
                 GetMonsterAtLocation();
             }
-
-            else{
-                // Let the monster attack
-                int damageToPlayer = RandomNumberGenerator.NumberBetween(CurrentMonster.MinimumDamage, CurrentMonster.MaximumDamage);
-
-                if (damageToPlayer == 0){
-                    RaiseMessage($"The {CurrentMonster.Name} attacks, but misses you.");
-                }
-                else{
-                    RaiseMessage($"The {CurrentMonster.Name} hit you for {damageToPlayer} points.");
-                    CurrentPlayer.TakeDamage(damageToPlayer);
-                }
+            else {
+                CurrentMonster.UseCurrentWeaponOn(CurrentPlayer);
             }
         }
         private void OnCurrentPlayerPerformedAction(object sender, string result) {
             RaiseMessage(result);
         }
-
+        private void OnCurrentMonsterPerformedAction(object sender, string result)
+        {
+            RaiseMessage(result);
+        }
         private void OnCurrentPlayerKilled(object sender, System.EventArgs eventArgs){
             RaiseMessage("");
             RaiseMessage("You have been killed.");
@@ -311,11 +296,9 @@ namespace Engine.ViewModels
                 CurrentPlayer.AddItemToInventory(gameItem);
             }
         }
-
         private void OnCurrentPlayerLeveledUp(object sender, System.EventArgs eventArgs){
             RaiseMessage($"You are now level {CurrentPlayer.Level}!");
         }
-
         private void RaiseMessage(string message){
             OnMessageRaised?.Invoke(this, new GameMessageEventArgs(message));
         }
