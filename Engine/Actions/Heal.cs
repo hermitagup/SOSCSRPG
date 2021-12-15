@@ -1,23 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Engine.Models;
 
 namespace Engine.Actions {
-    public class Heal : IAction{
-
-        private readonly GameItem _itemp;
+    public class Heal : BaseAction, IAction {
         private readonly int _hitPointsToHeal;
 
-        public event EventHandler<string> OnActionPerformed;
-
-        public Heal(GameItem item, int hitPointsToHeal) {
-            if (item.Category != GameItem.ItemCategory.Consumables) {
-                throw new ArgumentException($"{item.Name} is not consumable");
+        public Heal(GameItem itemInUse, int hitPointsToHeal)
+            : base(itemInUse) {
+            if (itemInUse.Category != GameItem.ItemCategory.Consumables) {
+                throw new ArgumentException($"{itemInUse.Name} is not consumable");
             }
-            _itemp = item;
+
             _hitPointsToHeal = hitPointsToHeal;
         }
 
@@ -28,10 +21,5 @@ namespace Engine.Actions {
             ReportResult($"{actorName} heal {targetName} for {_hitPointsToHeal} point{(_hitPointsToHeal > 1 ? "s" : "")}.");
             target.Heal(_hitPointsToHeal);
         }
-
-        private void ReportResult(string result) {
-            OnActionPerformed?.Invoke(this, result);
-        }
-
     }
 }
