@@ -6,7 +6,7 @@ namespace Engine.Models
         public enum ItemCategory {
             Miscellaneous,
             Weapon,
-            Consumables
+            Consumable
         }
         // removed set{} in Lesson 10.6 to prevent any changes to them , where only place it should be set is below constructor
         public ItemCategory Category { get; }

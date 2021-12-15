@@ -40,9 +40,8 @@ namespace Engine.Factories
             weapon.Action = new AttackWithWeapon(weapon, minimumDamage, maximumDamage);
             _standardGameItems.Add(weapon);
         }
-
         private static void BuildHealingItem(int id, string name, int price, int hitPointsToHeal) {
-            GameItem item = new GameItem(GameItem.ItemCategory.Consumables, id, name, price);
+            GameItem item = new GameItem(GameItem.ItemCategory.Consumable, id, name, price);
             item.Action = new Heal(item, hitPointsToHeal);
             _standardGameItems.Add(item);
         }

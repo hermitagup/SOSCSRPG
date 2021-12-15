@@ -68,7 +68,7 @@ namespace Engine.Models
                 OnPropertyChanged();
             }
         }
-        public GameItem CurrentConsumable {
+        public GameItem CurrentConsumable { // the setter and getter for the CurrentConsumable, it subscribes to and unsubscribes from, the item's action's OnActionPerformed
             get => _currentConsumable;
             set {
                 if (_currentConsumable != null) {
@@ -91,10 +91,9 @@ namespace Engine.Models
 
         public List<GameItem> Weapons =>
             Inventory.Where(i => i.Category == GameItem.ItemCategory.Weapon).ToList();
-        public List<GameItem> Consumables =>
-            Inventory.Where(i => i.Category == GameItem.ItemCategory.Consumables).ToList();
-
-        public bool HasConsumable => Consumables.Any();
+        public List<GameItem> Consumables =>        //property to bind the UI's combobox
+            Inventory.Where(i => i.Category == GameItem.ItemCategory.Consumable).ToList();
+        public bool HasConsumable => Consumables.Any(); //property to hide or show the combobox
 
         public bool IsDead => CurrentHitPoints <= 0;
 
@@ -103,7 +102,8 @@ namespace Engine.Models
         public event EventHandler<string> OnActionPerformed; // UI will watch this event for any messages that are raised when the LivingEntity performs an action
         public event EventHandler OnKilled;
 
-        protected LivingEntity(string name, int maximumHitPoints, int currentHitPoints, int gold, int level = 1){
+        protected LivingEntity(string name, int maximumHitPoints, int currentHitPoints,
+                               int gold, int level = 1){
             Name = name;
             MaximumHitPoints = maximumHitPoints;
             CurrentHitPoints = currentHitPoints;
@@ -116,8 +116,7 @@ namespace Engine.Models
         public void UseCurrentWeaponOn(LivingEntity target) { //wrapper function that the ViewModel will use to initiate an attack
             CurrentWeapon.PerformAction(this, target);
         }
-
-        public void UseCurrentConsumable() {
+        public void UseCurrentConsumable() {     // helper function, when the player uses their currently-selected consumable
             CurrentConsumable.PerformAction(this, this);
             RemoveItemFromInventory(CurrentConsumable);
         }
@@ -155,7 +154,6 @@ namespace Engine.Models
         }
 
         public void AddItemToInventory(GameItem item){
-            
             Inventory.Add(item);
 
             if (item.IsUnique){

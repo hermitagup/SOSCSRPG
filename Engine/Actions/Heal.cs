@@ -4,10 +4,11 @@ using Engine.Models;
 namespace Engine.Actions {
     public class Heal : BaseAction, IAction {
         private readonly int _hitPointsToHeal;
-
         public Heal(GameItem itemInUse, int hitPointsToHeal)
-            : base(itemInUse) {
-            if (itemInUse.Category != GameItem.ItemCategory.Consumables) {
+            : base(itemInUse)
+        {
+            if (itemInUse.Category != GameItem.ItemCategory.Consumable)
+            {
                 throw new ArgumentException($"{itemInUse.Name} is not consumable");
             }
 

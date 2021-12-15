@@ -22,7 +22,6 @@ namespace Engine.Actions
             if (_maximumDamage < _minimumDamage) {
                 throw new ArgumentException("maximumDamage must be >= minimumDamage");
             }
-
             _minimumDamage = minimumDamage;
             _maximumDamage = maximumDamage;
         }

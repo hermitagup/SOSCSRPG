@@ -129,6 +129,7 @@ namespace Engine.ViewModels
             {                         // if current player doesn't have any weapon (Weapons list == empty) it will equip item ID 1001 = Pointy stick
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(1001));
             }
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(2001));     // give the Player a granola bar when they start the game
 
             CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(2001));     // item that player will start with
 
