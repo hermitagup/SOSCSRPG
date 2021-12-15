@@ -130,6 +130,8 @@ namespace Engine.ViewModels
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(1001));
             }
 
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(2001));     // item that player will start with
+
             CurrentWorld = WorldFactory.CreateWorld();  // As we use this instance class to CreateWorld only we are changing it from instance to static (Global) class = do something and give me result in and out!
                                                         // using static class to create object is called Factory Design Pattern) - To Remember: if class is static all of it's functions and private variables need to be static too!
                                                         // goes to WorldFactory class (which is static) and call CreateWorld function (static again)
@@ -267,6 +269,11 @@ namespace Engine.ViewModels
                 CurrentMonster.UseCurrentWeaponOn(CurrentPlayer);
             }
         }
+
+        public void UseCurrentConsumable() {
+            CurrentPlayer.UseCurrentConsumable();
+        }
+
         private void OnCurrentPlayerPerformedAction(object sender, string result) {
             RaiseMessage(result);
         }
