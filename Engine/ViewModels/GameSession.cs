@@ -129,6 +129,7 @@ namespace Engine.ViewModels
             {                         // if current player doesn't have any weapon (Weapons list == empty) it will equip item ID 1001 = Pointy stick
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(1001));
             }
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(2001));     // give the Player a granola bar when they start the game
 
             CurrentWorld = WorldFactory.CreateWorld();  // As we use this instance class to CreateWorld only we are changing it from instance to static (Global) class = do something and give me result in and out!
                                                         // using static class to create object is called Factory Design Pattern) - To Remember: if class is static all of it's functions and private variables need to be static too!
@@ -266,6 +267,10 @@ namespace Engine.ViewModels
             else {
                 CurrentMonster.UseCurrentWeaponOn(CurrentPlayer);
             }
+        }
+        public void UseCurrentConsumable()
+        {
+            CurrentPlayer.UseCurrentConsumable();
         }
         private void OnCurrentPlayerPerformedAction(object sender, string result) {
             RaiseMessage(result);

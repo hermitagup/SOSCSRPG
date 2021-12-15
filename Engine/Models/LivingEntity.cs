@@ -14,6 +14,7 @@ namespace Engine.Models
         private int _gold;
         private int _level;
         private GameItem _currentWeapon;
+        private GameItem _currentConsumable;
 
         public string Name{
             get { return _name; }
@@ -67,6 +68,26 @@ namespace Engine.Models
                 OnPropertyChanged();
             }
         }
+        public GameItem CurrentConsumable // the setter and getter for the CurrentConsumable, it subscribes to and unsubscribes from, the item's action's OnActionPerformed
+        {
+            get => _currentConsumable;
+            set
+            {
+                if (_currentConsumable != null)
+                {
+                    _currentConsumable.Action.OnActionPerformed -= RaiseActionPerformedEvent;
+                }
+
+                _currentConsumable = value;
+
+                if (_currentConsumable != null)
+                {
+                    _currentConsumable.Action.OnActionPerformed += RaiseActionPerformedEvent;
+                }
+
+                OnPropertyChanged();
+            }
+        }
 
         public ObservableCollection<GameItem> Inventory { get; }
 
@@ -74,6 +95,9 @@ namespace Engine.Models
 
         public List<GameItem> Weapons =>
             Inventory.Where(i => i.Category == GameItem.ItemCategory.Weapon).ToList();
+        public List<GameItem> Consumables =>        //property to bind the UI's combobox
+            Inventory.Where(i => i.Category == GameItem.ItemCategory.Consumable).ToList();
+        public bool HasConsumable => Consumables.Any(); //property to hide or show the combobox
 
         public bool IsDead => CurrentHitPoints <= 0;
 
@@ -95,6 +119,11 @@ namespace Engine.Models
         }
         public void UseCurrentWeaponOn(LivingEntity target) { //wrapper function that the ViewModel will use to initiate an attack
             CurrentWeapon.PerformAction(this, target);
+        }
+        public void UseCurrentConsumable()      // helper function, when the player uses their currently-selected consumable
+        {
+            CurrentConsumable.PerformAction(this, this);
+            RemoveItemFromInventory(CurrentConsumable);
         }
 
         public void TakeDamage(int hitPointsOfDamage){
@@ -142,6 +171,8 @@ namespace Engine.Models
                 GroupedInventory.First(gi => gi.Item.ItemTypeID == item.ItemTypeID).Quantity++;
             }
             OnPropertyChanged(nameof(Weapons));
+            OnPropertyChanged(nameof(Consumables));
+            OnPropertyChanged(nameof(HasConsumable));
         }
 
         public void RemoveItemFromInventory(GameItem item) {
@@ -163,6 +194,8 @@ namespace Engine.Models
             }
 
             OnPropertyChanged(nameof(Weapons));
+            OnPropertyChanged(nameof(Consumables));
+            OnPropertyChanged(nameof(HasConsumable));
         }
         #region Private functions
         private void RaiseOnKilledEvent(){
