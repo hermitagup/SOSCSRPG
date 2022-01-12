@@ -49,16 +49,6 @@ namespace Engine.Models
             Recipes = new ObservableCollection<Recipe>();       //Initialization of Recipes property with an empty ObservableCollection of <Recipe> objects
         }
 
-        public bool HasAllTheseItems(List<ItemQuantity> items) // this function check if the player has all the items required to complete the quest
-        {                                                      // function accepts a list of ItemQuantity objects and looks through the playr's inventory
-            foreach (ItemQuantity item in items){
-                if (Inventory.Count(i => i.ItemTypeID == item.ItemID) < item.Quantity) { //if the count of items is less than the number required in the parameter, the function returns false; if the player has a large enough quantity for all the items passed into the function it will return true
-                    return false;
-                }
-            }
-            return true;
-        }
-
         public void AddExperience(int experiencePoints) {
             ExperiencePoints += experiencePoints;
         }

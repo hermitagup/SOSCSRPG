@@ -2,6 +2,7 @@
 using Engine.ViewModels;   //Adding this using will instantiating Games Model object inside MainWindow class
 using System.Windows;
 using System.Windows.Documents;
+using Engine.Models;
 
 namespace WPFUI
 {
@@ -47,8 +48,6 @@ namespace WPFUI
             _gameSession.UseCurrentConsumable();
         }
 
-
-        
         private void OnGameMessageRaised(object sender, GameMessageEventArgs e) {
             GameMessages.Document.Blocks.Add(new Paragraph(new Run(e.Message)));
             GameMessages.ScrollToEnd();
@@ -61,6 +60,9 @@ namespace WPFUI
             tradeScreen.ShowDialog();   // Show() - creates not modal window where you can still interact and click buttons on main window | ShowDialog() - creates modal window where focus is in a new window and main window interaction is no more possible.
         }
 
-
+        private void OnClick_Craft(object sender, RoutedEventArgs e) {
+            Recipe recipe = ((FrameworkElement)sender).DataContext as Recipe;
+            _gameSession.CraftItemUsing(recipe);
+        }
     }
 }

@@ -68,6 +68,7 @@ namespace Engine.Models
                 OnPropertyChanged();
             }
         }
+
         public GameItem CurrentConsumable { // the setter and getter for the CurrentConsumable, it subscribes to and unsubscribes from, the item's action's OnActionPerformed
             get => _currentConsumable;
             set {
@@ -192,6 +193,25 @@ namespace Engine.Models
             OnPropertyChanged(nameof(Consumables));
             OnPropertyChanged(nameof(HasConsumable));
         }
+        
+        public void RemoveItemsFromInventory(List<ItemQuantity> itemQuantities) {
+            foreach (ItemQuantity itemQuantity in itemQuantities) {
+                for (int i = 0; i < itemQuantity.Quantity; i++) {
+                    RemoveItemFromInventory(Inventory.First(item => item.ItemTypeID == itemQuantity.ItemID));
+                }
+            }
+        }
+
+        public bool HasAllTheseItems(List<ItemQuantity> items) // this function check if the player has all the items required to complete the quest
+        {                                                      // function accepts a list of ItemQuantity objects and looks through the playr's inventory
+            foreach (ItemQuantity item in items) {
+                if (Inventory.Count(i => i.ItemTypeID == item.ItemID) < item.Quantity) { //if the count of items is less than the number required in the parameter, the function returns false; if the player has a large enough quantity for all the items passed into the function it will return true
+                    return false;
+                }
+            }
+            return true;
+        }
+
         #region Private functions
         private void RaiseOnKilledEvent(){
             OnKilled?.Invoke(this, new System.EventArgs());

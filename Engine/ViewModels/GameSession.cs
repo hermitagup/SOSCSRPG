@@ -135,6 +135,10 @@ namespace Engine.ViewModels
             CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(2001));     // give the Player a granola bar when they start the game
             CurrentPlayer.LearnRecipe(RecipeFactory.RecipeByID(1));                 // !! This is just for testing on Lesson 12.7-Creating Recipes
 
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(3001));     //Granola bar recipe ingredient
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(3002));     //Granola bar recipe ingredient
+            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(3003));     //Granola bar recipe ingredient
+
             CurrentWorld = WorldFactory.CreateWorld();  // As we use this instance class to CreateWorld only we are changing it from instance to static (Global) class = do something and give me result in and out!
                                                         // using static class to create object is called Factory Design Pattern) - To Remember: if class is static all of it's functions and private variables need to be static too!
                                                         // goes to WorldFactory class (which is static) and call CreateWorld function (static again)
@@ -186,14 +190,18 @@ namespace Engine.ViewModels
                 {
                     if (CurrentPlayer.HasAllTheseItems(quest.ItemsToComplete))
                     {
+
+                    /* - left for comparision
                         // Remove the quest completion items from the player's inventory
-                        foreach (ItemQuantity itemQuantity in quest.ItemsToComplete)
-                        {
-                            for (int i = 0; i < itemQuantity.Quantity; i++)
-                            {
+                        foreach (ItemQuantity itemQuantity in quest.ItemsToComplete){
+                            for (int i = 0; i < itemQuantity.Quantity; i++){
                                 CurrentPlayer.RemoveItemFromInventory(CurrentPlayer.Inventory.First(item => item.ItemTypeID == itemQuantity.ItemID));
                             }
                         }
+                    */
+
+                        // Instead of commented code we can now (Lesson 12.8) use 1 line code
+                        CurrentPlayer.RemoveItemsFromInventory(quest.ItemsToComplete);
 
                         RaiseMessage("");
                         RaiseMessage($"You completed the '{quest.Name}' quest");
@@ -272,11 +280,27 @@ namespace Engine.ViewModels
                 CurrentMonster.UseCurrentWeaponOn(CurrentPlayer);
             }
         }
-
         public void UseCurrentConsumable() {
             CurrentPlayer.UseCurrentConsumable();
         }
+        public void CraftItemUsing(Recipe recipe) {
+            if (CurrentPlayer.HasAllTheseItems(recipe.Ingredients)) {               //if Player has all required ingredients
+                CurrentPlayer.RemoveItemsFromInventory(recipe.Ingredients);             //remove the items from Players inventory
 
+                foreach (ItemQuantity itemQuantity in recipe.OutputItems) {             //loop for Output Item -> loop x times , where x is number of output files received based on recipe
+                    for (int i = 0; i < itemQuantity.Quantity; i++) {
+                        GameItem outputItem = ItemFactory.CreateGameItem(itemQuantity.ItemID);
+                        CurrentPlayer.AddItemToInventory(outputItem);
+                        RaiseMessage($"You craft 1 {outputItem.Name}");
+                    }
+                }
+            } else {                                                                // If Player doesn't have required ingredients
+                RaiseMessage("You do not have the required ingredients:");
+                foreach (ItemQuantity itemQuantity in recipe.Ingredients) {
+                    RaiseMessage($"   {itemQuantity.Quantity} {ItemFactory.ItemName(itemQuantity.ItemID)}");
+                }
+            }
+        }
         private void OnCurrentPlayerPerformedAction(object sender, string result) {
             RaiseMessage(result);
         }
