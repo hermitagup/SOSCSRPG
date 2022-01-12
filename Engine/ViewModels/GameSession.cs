@@ -121,8 +121,11 @@ namespace Engine.ViewModels
         public bool HasMonster => CurrentMonster != null;   //bool property to check if there is a monster. '=>' - this is an expression body and is used instead of get like in HasLocationToXYZ , same like 'return CurrentWorld.,, calculation'
 
         public bool HasTrader => CurrentTrader != null;     // to use for the UI to decide whether or not to display the “Trade” button – based on whether or not there is a CurrentTrader
-        public GameSession()    // GameSession constructor - part of a code run when object is being created.
-        {
+
+        /// <summary>
+        /// GAME SESSION CONSTRUCTOR
+        /// </summary>
+        public GameSession(){    // GameSession constructor - part of a code run when object is being created.
             CurrentPlayer = new Player("Scott", "Fighter", 0, 10, 10, 1000000);
 
             if (!CurrentPlayer.Weapons.Any())
@@ -130,8 +133,7 @@ namespace Engine.ViewModels
                 CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(1001));
             }
             CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(2001));     // give the Player a granola bar when they start the game
-
-            CurrentPlayer.AddItemToInventory(ItemFactory.CreateGameItem(2001));     // item that player will start with
+            CurrentPlayer.LearnRecipe(RecipeFactory.RecipeByID(1));                 // !! This is just for testing on Lesson 12.7-Creating Recipes
 
             CurrentWorld = WorldFactory.CreateWorld();  // As we use this instance class to CreateWorld only we are changing it from instance to static (Global) class = do something and give me result in and out!
                                                         // using static class to create object is called Factory Design Pattern) - To Remember: if class is static all of it's functions and private variables need to be static too!
