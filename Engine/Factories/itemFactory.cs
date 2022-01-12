@@ -50,5 +50,14 @@ namespace Engine.Factories
             item.Action = new Heal(item, hitPointsToHeal);
             _standardGameItems.Add(item);
         }
+
+        public static string ItemName(int itemTypeID) {
+            return _standardGameItems.FirstOrDefault(i => i.ItemTypeID == itemTypeID)?.Name ?? "";      // single '?' is to handle NULL situations (just in case as it never should be positive) - prevents in getting NULL Reference exception
+                                                                                                        // '?' - reads as - if everything on the left of it evaluates to NULL, don't try to get the 'Name' property
+                                                                                                        // because we do not have object (its NULL), if returns other than NULL, get the 'Name' property
+                                                                                                        // '??' - reads as - if result from left is NULL return "" (empty string)
+        }
+
+
     }
 }
