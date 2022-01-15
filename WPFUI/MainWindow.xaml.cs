@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using Engine.EventArgs;
@@ -97,11 +98,30 @@ namespace WPFUI
             _userInputActions.Add(Key.D, () => _gameSession.MoveEast());                // '=>' - is the lambda expression
             _userInputActions.Add(Key.Z, () => _gameSession.AttackCurrentMonster());    // 
             _userInputActions.Add(Key.C, () => _gameSession.UseCurrentConsumable());
+            _userInputActions.Add(Key.I, () => SetTabFocusTo("InventoryTabItem"));
+            _userInputActions.Add(Key.Q, () => SetTabFocusTo("QuestsTabItem"));
+            _userInputActions.Add(Key.R, () => SetTabFocusTo("RecipesTabItem"));
+
+            _userInputActions.Add(Key.D1, () => SetTabFocusTo("InventoryTabItem"));      //Addition
+            _userInputActions.Add(Key.D2, () => SetTabFocusTo("QuestsTabItem"));         //Addition
+            _userInputActions.Add(Key.D3, () => SetTabFocusTo("RecipesTabItem"));        //Addition
+
+            _userInputActions.Add(Key.T, () => OnClick_DisplayTradeScreen(this, new RoutedEventArgs()));
         }
 
         private void MainWindow_OnKeyDown(object sender, KeyEventArgs e) {
             if (_userInputActions.ContainsKey(e.Key)) {
                 _userInputActions[e.Key].Invoke();
+            }
+        }
+        private void SetTabFocusTo(string tabName) {
+            foreach (object item in PlayerDataTabControl.Items) {
+                if (item is TabItem tabItem) {                              // shorter for this cast 2 liner:   TabItem tabItem = item as TabItem
+                    if (tabItem.Name == tabName) {                          //                                  if (tabItem != null){}
+                        tabItem.IsSelected = true;
+                        return;
+                    }
+                }
             }
         }
     }
