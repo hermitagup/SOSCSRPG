@@ -108,18 +108,13 @@ namespace Engine.ViewModels
         // After refactoring this bit of a code (example)
         public bool HasLocationToNorth =>
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate + 1) != null;
-
         public bool HasLocationToEast =>            //  the value of that property is determined by checking if the HasLocationToEast property is null
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate + 1, CurrentLocation.YCoordinate) != null;
-
         public bool HasLocationToSouth =>           // the value of that property is determined by checking if the HasLocationToSouth property is null
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate, CurrentLocation.YCoordinate - 1) != null;
-
         public bool HasLocationToWest =>            // the value of that property is determined by checking if the HasLocationToWest property is null
             CurrentWorld.LocationAt(CurrentLocation.XCoordinate - 1, CurrentLocation.YCoordinate) != null;
-
         public bool HasMonster => CurrentMonster != null;   //bool property to check if there is a monster. '=>' - this is an expression body and is used instead of get like in HasLocationToXYZ , same like 'return CurrentWorld.,, calculation'
-
         public bool HasTrader => CurrentTrader != null;     // to use for the UI to decide whether or not to display the “Trade” button – based on whether or not there is a CurrentTrader
 
         /// <summary>
@@ -149,7 +144,6 @@ namespace Engine.ViewModels
             //CurrentPlayer.Inventory.Add(ItemFactory.CreateGameItem(1002));  //temp
             //CurrentPlayer.Inventory.Add(ItemFactory.CreateGameItem(1002));  //temp
         }
-
         public void MoveNorth()
         {
             if (HasLocationToNorth)
@@ -265,6 +259,11 @@ namespace Engine.ViewModels
             CurrentMonster = CurrentLocation.GetMonster();
         }
         public void AttackCurrentMonster(){
+
+            if (CurrentMonster == null) {                           // Guard clause! - required to avoid attacking monster when monster is not there but user used keyboard button to invoke action 
+                return;                                             // instead on clicking on form app
+            }
+            
             if (CurrentPlayer.CurrentWeapon == null) {              // Guard clause! - we will not run all stuff below if player doesn't have weapon equiped!
 
                 RaiseMessage("Mighty Hero! You must select a weapon, to attack.");
@@ -281,10 +280,12 @@ namespace Engine.ViewModels
             }
         }
         public void UseCurrentConsumable() {
-            CurrentPlayer.UseCurrentConsumable();
+            if (CurrentPlayer.CurrentConsumable != null) {
+                CurrentPlayer.UseCurrentConsumable();
+            }
         }
         public void CraftItemUsing(Recipe recipe) {
-            if (CurrentPlayer.HasAllTheseItems(recipe.Ingredients)) {               //if Player has all required ingredients
+            if (CurrentPlayer.HasAllTheseItems(recipe.Ingredients)) {                   //if Player has all required ingredients
                 CurrentPlayer.RemoveItemsFromInventory(recipe.Ingredients);             //remove the items from Players inventory
 
                 foreach (ItemQuantity itemQuantity in recipe.OutputItems) {             //loop for Output Item -> loop x times , where x is number of output files received based on recipe

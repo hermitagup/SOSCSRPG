@@ -1,7 +1,10 @@
-﻿using Engine.EventArgs;
-using Engine.ViewModels;   //Adding this using will instantiating Games Model object inside MainWindow class
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Input;
+using Engine.EventArgs;
+using Engine.ViewModels;   //Adding this using will instantiating Games Model object inside MainWindow class
 using Engine.Models;
 
 namespace WPFUI
@@ -9,41 +12,63 @@ namespace WPFUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
-    {
+    public partial class MainWindow :Window {
         private readonly GameSession _gameSession = new GameSession();  // Declaring private readonly variable and Instantiating new GameSession object when starting new window
                                                                         // Now our View will have player and game session to work with (Player object is instantiatet in GameSession class.
-        public MainWindow()
-        {
+
+        private readonly Dictionary<Key, Action> _userInputActions = new Dictionary<Key, Action>();     // Key - key pressed by a user , Action - delegate -- > function we are going to run
+                                                                                                        // Dictionary is a special type of collection described by a Key/ Value pair
+                                                                                                        // we ask for a key (when found) result in a corresponding value
+                                                                                                        // if we would pass any parameters it could looks like
+                                                                                                        //
+                                                                                                        // void Main() {
+                                                                                                        //      Dictionary<key, Action<int, int>> _userInputActions = new Dictionary<Key, Action<int, int>>();
+                                                                                                        //      _userInputActions.Add("Something", (first, second) => DoSomething(first, second));
+                                                                                                        //      _userInputActions.Add("SomethingElse", (primary, secondary) => DoSomethingElse(primary, secondary));
+                                                                                                        //      _userInputActions.Add("SomethingSpecial", (x, y) => {
+                                                                                                        //          SpecialFunction();
+                                                                                                        //          DoSomething(x, y);
+                                                                                                        //      });
+                                                                                                        //
+                                                                                                        //      _userInputActions["Something"].Invoke(3,4);
+                                                                                                        // }
+                                                                                                        //
+                                                                                                        // public void DoSomething(int x, int y){}
+                                                                                                        // public void DoSomethingElse(int one, int two){}
+                                                                                                        // public void SpecialFunction(){}
+
+
+        public MainWindow() {
             InitializeComponent();
+            InitializeUserInputActions();
             _gameSession.OnMessageRaised += OnGameMessageRaised; //funciton to handle event
             DataContext = _gameSession;  // This is what is XAML file is going to use for it's values.
         }
 
-        private void OnClick_MoveNorth (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
+        private void OnClick_MoveNorth(object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
         {
             _gameSession.MoveNorth();
         }
 
-        private void OnClick_MoveWest (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
+        private void OnClick_MoveWest(object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
         {
             _gameSession.MoveWest();
         }
 
-        private void OnClick_MoveEast (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
+        private void OnClick_MoveEast(object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
         {
             _gameSession.MoveEast();
         }
 
-        private void OnClick_MoveSouth (object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
+        private void OnClick_MoveSouth(object sender, RoutedEventArgs e) // used only by mainwindow (private); not returns any value (void); 2 parameters: 
         {
             _gameSession.MoveSouth();
         }
 
-        private void OnClick_AttackMonster(object sender, RoutedEventArgs e) { 
+        private void OnClick_AttackMonster(object sender, RoutedEventArgs e) {
             _gameSession.AttackCurrentMonster();
         }
-        
+
         private void OnClick_UseCurrentConsumable(object sender, RoutedEventArgs e) {
             _gameSession.UseCurrentConsumable();
         }
@@ -63,6 +88,21 @@ namespace WPFUI
         private void OnClick_Craft(object sender, RoutedEventArgs e) {
             Recipe recipe = ((FrameworkElement)sender).DataContext as Recipe;
             _gameSession.CraftItemUsing(recipe);
+        }
+
+        private void InitializeUserInputActions(){
+            _userInputActions.Add(Key.W, () => _gameSession.MoveNorth());               // read as: when 'W' key pressed
+            _userInputActions.Add(Key.S, () => _gameSession.MoveSouth());               // '()' - list of parameters passed to a function that we are going to run
+            _userInputActions.Add(Key.A, () => _gameSession.MoveWest());                // as we don't need to pass any parameters we pass nothing as '()'
+            _userInputActions.Add(Key.D, () => _gameSession.MoveEast());                // '=>' - is the lambda expression
+            _userInputActions.Add(Key.Z, () => _gameSession.AttackCurrentMonster());    // 
+            _userInputActions.Add(Key.C, () => _gameSession.UseCurrentConsumable());
+        }
+
+        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e) {
+            if (_userInputActions.ContainsKey(e.Key)) {
+                _userInputActions[e.Key].Invoke();
+            }
         }
     }
 }
